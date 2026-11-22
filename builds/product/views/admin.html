@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Administration · Steel Yard Ledger — Alpha</title>
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/auth.css" />
+  </head>
+  <body class="admin-body requires-session">
+    <header class="admin-header">
+      <div class="session-bar">
+        <span class="session-user">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="user-label">Signed in</span>
+          <span class="session-role" id="user-role" hidden></span>
+        </span>
+        <span class="session-actions">
+          <a class="session-link" href="/">Home</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" id="orders-link" href="/orders" hidden>Orders</a>
+          <a class="session-link" id="admin-link" href="/admin" hidden>Admin</a>
+          <button type="button" class="session-link" id="change-password-button" hidden>Change password</button>
+          <button type="button" class="session-link" id="logout-button">Sign out</button>
+        </span>
+      </div>
+      <div class="admin-header-inner">
+        <div>
+          <p class="brand-mark">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <circle cx="32" cy="32" r="30" fill="#202325"/>
+              <circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/>
+              <path d="M17.5 39.5 32 15l14.5 24.5" fill="none" stroke="#fdfdfc" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M27.2 39.5 32 30l4.8 9.5Z" fill="#ffc400"/>
+              <path d="M15.5 44.5h33l-2.6 6.5H18.1Z" fill="#ffc400"/>
+              <circle cx="32" cy="54.4" r="2.2" fill="#fdfdfc"/>
+            </svg>
+            Steel Yard Ledger — Alpha
+          </p>
+          <h1>Admin<br /><span class="accent">console</span></h1>
+          <p>Approve accounts, control access, and review security events.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-page">
+      <div class="status-banner" id="status-banner" role="status" hidden></div>
+
+      <section class="admin-summary" aria-label="Summary">
+        <div class="summary-card">
+          <span class="summary-value" id="summary-pending">—</span>
+          <span class="summary-label">Pending requests</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-value" id="summary-active">—</span>
+          <span class="summary-label">Approved users</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-value" id="summary-items">—</span>
+          <span class="summary-label">Catalogue items</span>
+        </div>
+      </section>
+
+      <section class="admin-panel" id="alerts-panel" hidden>
+        <div class="admin-panel-head">
+          <div>
+            <h2>Security alerts</h2>
+            <p>Suspicious activity from the last 24 hours. Review these first.</p>
+          </div>
+          <button type="button" class="mini-button" id="refresh-alerts">Refresh</button>
+        </div>
+        <div id="alerts-list"></div>
+      </section>
+
+      <section class="admin-panel">
+        <div class="admin-panel-head">
+          <div>
+            <h2>Users &amp; access requests</h2>
+            <p>Only approved users can view the catalogue. Viewers cannot edit anything. <strong>Set email</strong> attaches the Gmail address used for self-service password recovery.</p>
+          </div>
+          <button type="button" class="mini-button" id="refresh-users">Refresh</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Requested</th>
+                <th>Last sign-in</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-body">
+              <tr><td colspan="6" class="empty-cell">Loading users…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <div class="admin-panel-head">
+          <div>
+            <h2>Security events</h2>
+            <p>Sign-ins, approvals, changes, and blocked requests. Last 100 events.</p>
+          </div>
+          <button type="button" class="mini-button" id="refresh-events">Refresh</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>User</th>
+                <th>IP</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody id="events-body">
+              <tr><td colspan="5" class="empty-cell">Loading events…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="/session-ui.js?v=5"></script>
+    <script src="/admin.js?v=2"></script>
+  </body>
+</html>

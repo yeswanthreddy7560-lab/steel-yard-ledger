@@ -1,0 +1,551 @@
+/* ====================================================================
+   Steel Yard Ledger — Modern Ledger Build (UX/Design Visionary pass)
+
+   Public landing page — yard gate sign + paper work-order slip.
+   Strong palettes for light/dark, mobile-first, dark/light support.
+   ==================================================================== */
+
+.landing-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.landing-skip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+
+.landing-skip:focus {
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------- */
+/* Header                                                           */
+/* ---------------------------------------------------------------- */
+
+.landing-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px clamp(20px, 4vw, 56px);
+  background: var(--plate);
+  color: var(--plate-ink);
+  border-bottom: 7px solid var(--accent);
+}
+
+.landing-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -7px;
+  left: 0;
+  height: 7px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent) 0 16px,
+    var(--plate-ink-dim) 16px 32px
+  );
+  pointer-events: none;
+}
+
+.landing-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.landing-brand-icon {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  filter: drop-shadow(0 0 8px rgba(255, 216, 77, 0.5));
+}
+
+.landing-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1;
+}
+
+.landing-brand-name {
+  font-family: var(--display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.landing-brand-owner {
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.landing-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.landing-nav-link {
+  padding: 8px 10px;
+  border-bottom: 2px solid transparent;
+  color: var(--plate-ink);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.landing-nav-link:hover {
+  border-bottom-color: var(--accent);
+  color: var(--plate-ink);
+}
+
+.landing-nav-cta {
+  padding: 10px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.landing-nav-cta:hover {
+  background: var(--card);
+  color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 216, 77, 0.35);
+}
+
+/* ---------------------------------------------------------------- */
+/* Hero — dark steel plate with a faint yard grid                   */
+/* ---------------------------------------------------------------- */
+
+.landing-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 76px);
+  padding: clamp(48px, 8vw, 96px) clamp(20px, 5vw, 72px);
+  background-color: var(--plate);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--plate-ink);
+}
+
+.landing-hero-copy {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  max-width: 820px;
+}
+
+.landing-slip,
+.landing-section > *,
+.landing-access > * {
+  min-width: 0;
+}
+
+.landing-kicker {
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.landing-kicker--ink {
+  color: var(--steel);
+}
+
+.landing-title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(4.6rem, 13vw, 11rem);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--plate-ink);
+}
+
+.landing-title span {
+  display: block;
+}
+
+.landing-title-mark {
+  display: inline-block;
+  margin-top: 0.12em;
+  padding: 0.03em 0.14em 0.09em;
+  background: var(--accent);
+  color: var(--plate);
+  transform: rotate(-1.2deg);
+}
+
+.landing-lede {
+  max-width: 52ch;
+  margin: 30px 0 0;
+  color: var(--plate-ink-dim);
+  font-size: clamp(1.05rem, 1.4vw, 1.22rem);
+  line-height: 1.6;
+}
+
+.landing-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.landing-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.12s ease, box-shadow 0.12s ease;
+}
+
+.landing-button:hover {
+  background: var(--card);
+  color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 216, 77, 0.35);
+}
+
+.landing-button--quiet {
+  border-color: var(--plate-line);
+  background: transparent;
+  color: var(--plate-ink);
+}
+
+.landing-button--quiet:hover {
+  border-color: var(--accent);
+  background: var(--plate-bg-2);
+  color: var(--plate-ink);
+}
+
+.landing-note {
+  max-width: 52ch;
+  margin: 18px 0 0;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--plate-ink-dim);
+}
+
+/* ---------------------------------------------------------------- */
+/* Paper work-order slip                                            */
+/* ---------------------------------------------------------------- */
+
+.landing-slip {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  width: 100%;
+  max-width: 440px;
+  padding: 36px clamp(22px, 3vw, 34px) clamp(22px, 3vw, 32px);
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transform: rotate(0.6deg);
+}
+
+.landing-slip::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%);
+}
+
+.landing-slip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+.landing-slip h2 {
+  margin: 22px 0 12px;
+  font-family: var(--display);
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-weight: 800;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.landing-slip-lede {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+}
+
+.landing-slip-list {
+  margin: 24px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.landing-slip-list div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.landing-slip-list dt {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.landing-slip-list dd {
+  margin: 0;
+  font-size: 0.89rem;
+  color: var(--ink-soft);
+}
+
+.landing-stamp {
+  display: inline-block;
+  margin: 24px 0 0;
+  padding: 7px 11px;
+  border: 3px solid var(--oxide);
+  color: var(--oxide-ink);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+
+/* ---------------------------------------------------------------- */
+/* About and access                                                 */
+/* ---------------------------------------------------------------- */
+
+.landing-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: end;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 84px) clamp(20px, 5vw, 72px);
+  border-top: 7px solid var(--accent);
+}
+
+.landing-section h2 {
+  margin: 10px 0 0;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 800;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.landing-section-lede {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.landing-access {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto;
+  align-items: center;
+  gap: 32px;
+  padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 72px);
+  border-top: 7px solid var(--accent);
+  background: var(--plate-bg-2);
+  color: var(--plate-ink);
+}
+
+.landing-access h2 {
+  margin: 8px 0 10px;
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 0.94;
+  text-transform: uppercase;
+  color: var(--plate-ink);
+}
+
+.landing-access p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--plate-ink-dim);
+}
+
+.landing-actions--stack {
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Footer                                                           */
+/* ---------------------------------------------------------------- */
+
+.landing-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding: 24px clamp(20px, 5vw, 72px);
+  border-top: 1px solid var(--plate-line);
+  background: var(--plate);
+  color: var(--plate-ink-dim);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.landing-footer p {
+  max-width: 70ch;
+  margin: 0;
+}
+
+.landing-footer a {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.landing-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------- */
+/* Responsive and motion                                            */
+/* ---------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-hero-copy {
+    animation: landing-rise 600ms var(--ease) both;
+  }
+
+  .landing-slip {
+    animation: landing-rise 700ms 90ms var(--ease) both;
+  }
+
+  @keyframes landing-rise {
+    from {
+      opacity: 0;
+      translate: 0 18px;
+    }
+
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .landing-slip {
+    justify-self: start;
+    max-width: 560px;
+    transform: none;
+  }
+
+  .landing-section {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .landing-access {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .landing-actions--stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .landing-nav {
+    width: 100%;
+  }
+
+  .landing-nav-cta {
+    flex: 1;
+    text-align: center;
+  }
+
+  .landing-title {
+    font-size: clamp(3.4rem, 20vw, 6rem);
+  }
+
+  .landing-slip-list div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}

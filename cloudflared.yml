@@ -1,0 +1,12 @@
+tunnel: steel-yard-ledger
+# Credentials file produced by:
+#   cloudflared tunnel login
+#   cloudflared tunnel create steel-yard-ledger
+credentials-file: C:\Users\yeswa\.cloudflared\steel-yard-ledger.json
+
+ingress:
+  # Your public domain (replace with a Cloudflare-managed domain; see docs/DEPLOY-PERMANENT-URL.md).
+  - hostname: steel-yard-ledger.yourdomain.com
+    service: http://localhost:3000
+  # Catch-all
+  - service: http_status:404

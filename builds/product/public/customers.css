@@ -1,0 +1,476 @@
+/* ================================================================
+   Customer Register — same "Steel Yard Ledger" system as the app:
+   galvanized paper, steel ink, hazard yellow. The yellow ledger
+   header is the one loud element; everything else stays quiet.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Dashboard summary cards
+   ---------------------------------------------------------------- */
+
+.cust-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  padding-bottom: 22px;
+}
+
+.cust-card {
+  display: grid;
+  gap: 2px;
+  padding: 16px 18px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--line-dark);
+  border-radius: 6px;
+}
+
+.cust-card-value {
+  font-family: var(--display);
+  font-size: 2.9rem;
+  font-weight: 700;
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+
+.cust-card-label {
+  color: var(--steel);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.cust-card--total   { border-top-color: #2b5aa8; }
+.cust-card--total   .cust-card-value { color: #2b5aa8; }
+.cust-card--active  { border-top-color: var(--ok-ink); }
+.cust-card--active  .cust-card-value { color: var(--ok-ink); }
+.cust-card--soon    { border-top-color: #b45309; }
+.cust-card--soon    .cust-card-value { color: #b45309; }
+.cust-card--expired { border-top-color: var(--oxide); }
+.cust-card--expired .cust-card-value { color: var(--oxide-ink); }
+
+/* ----------------------------------------------------------------
+   Toolbar / filter panel
+   ---------------------------------------------------------------- */
+
+.cust-toolbar {
+  padding-bottom: 14px;
+}
+
+.cust-toolbar .primary-button {
+  order: 10;
+}
+
+.filter-panel {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-dark);
+  border-left: 5px solid var(--hazard);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.filter-panel label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.filter-panel select,
+.filter-panel input[type="date"] {
+  min-width: 150px;
+  padding: 9px 10px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.filter-panel select:focus,
+.filter-panel input[type="date"]:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+/* Bill book sheet selector */
+
+.book-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.book-select select {
+  min-width: 170px;
+  max-width: 260px;
+  padding: 9px 30px 9px 11px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.book-select select:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.book-select span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ----------------------------------------------------------------
+   Ledger table
+   ---------------------------------------------------------------- */
+
+.ledger-card {
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 4px 4px 0 rgba(28, 30, 32, 0.08);
+  overflow: hidden;
+}
+
+.ledger-scroll {
+  overflow-x: auto;
+}
+
+.ledger-table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.ledger-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 12px 14px;
+  background: var(--hazard);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--ink);
+}
+
+.ledger-table tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  vertical-align: middle;
+}
+
+.ledger-table tbody tr:hover td {
+  background: var(--surface);
+}
+
+.ledger-table .col-sno {
+  width: 64px;
+  text-align: right;
+}
+
+.ledger-table td.cust-sno {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--steel);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-table td.cust-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ledger-table .col-num {
+  text-align: right;
+}
+
+.ledger-table td.cust-amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ledger-table .col-actions {
+  text-align: right;
+}
+
+.ledger-table td.cust-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cust-mono {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+}
+
+.cust-date {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+/* Expired rows read as struck-off ledger lines */
+
+.ledger-table tr.is-expired td {
+  background: var(--oxide-bg);
+}
+
+.ledger-table tr.is-expired:hover td {
+  background: #f0d6d0;
+}
+
+.ledger-table tr.is-expired td:first-child {
+  box-shadow: inset 4px 0 0 var(--oxide);
+}
+
+/* Status badges */
+
+.cust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.cust-badge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cust-badge--active {
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}
+
+.cust-badge--soon {
+  background: #fbeed7;
+  color: #8a4a06;
+}
+
+.cust-badge--expired {
+  background: var(--oxide);
+  color: var(--white);
+}
+
+/* Row action buttons */
+
+.cust-row-button {
+  padding: 6px 12px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.cust-row-button:hover {
+  border-color: var(--ink);
+}
+
+.cust-row-button--danger {
+  border-color: var(--oxide);
+  color: var(--oxide-ink);
+}
+
+.cust-row-button--danger:hover {
+  background: var(--oxide);
+  color: var(--white);
+}
+
+.ledger-table .empty-actions {
+  color: var(--steel);
+}
+
+/* Pagination */
+
+.ledger-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line-dark);
+  background: var(--surface);
+}
+
+.ledger-pageinfo {
+  color: var(--steel);
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-pager {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.ledger-empty-row td {
+  padding: 26px 14px;
+  text-align: center;
+  color: var(--steel);
+  font-size: 0.9rem;
+}
+
+/* ----------------------------------------------------------------
+   Delete confirmation
+   ---------------------------------------------------------------- */
+
+.cust-confirm {
+  width: min(460px, calc(100% - 28px));
+}
+
+.cust-confirm-copy {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+/* ----------------------------------------------------------------
+   Toast notifications
+   ---------------------------------------------------------------- */
+
+.toast-region {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.toast {
+  max-width: min(360px, calc(100vw - 36px));
+  padding: 12px 16px;
+  border: 1px solid var(--ink);
+  border-left: 6px solid var(--ok-ink);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: 4px 4px 0 rgba(28, 30, 32, 0.18);
+  animation: toast-in 0.16s ease-out;
+}
+
+.toast--error {
+  border-left-color: var(--oxide);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .cust-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .cust-cards {
+    gap: 10px;
+    padding-bottom: 18px;
+  }
+
+  .cust-card {
+    padding: 12px 14px 10px;
+  }
+
+  .cust-card-value {
+    font-size: 2.2rem;
+  }
+
+  .cust-toolbar .result-count {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+
+  .filter-panel input[type="date"],
+  .filter-panel select {
+    flex: 1;
+    min-width: 130px;
+  }
+
+  .book-select select {
+    min-width: 120px;
+  }
+
+  .cust-row-button {
+    padding: 8px 12px;
+  }
+}
+
+@media print {
+  .cust-cards,
+  .cust-toolbar,
+  .filter-panel,
+  .ledger-footer,
+  .site-footer {
+    display: none !important;
+  }
+
+  .ledger-card {
+    box-shadow: none;
+  }
+
+  .ledger-scroll {
+    overflow: visible;
+  }
+
+  .ledger-table {
+    min-width: 0;
+  }
+}

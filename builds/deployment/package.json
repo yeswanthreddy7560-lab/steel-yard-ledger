@@ -1,0 +1,39 @@
+{
+  "name": "steel-yard-ledger",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Steel Yard Ledger — Alpha, private, admin-approved material & hardware catalogue for steel yards.",
+  "type": "commonjs",
+  "main": "functions/index.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node start.js",
+    "serve": "node scripts/serve.js",
+    "tls-cert": "node scripts/generate-tls-cert.js",
+    "security-test": "node scripts/security-test.js",
+    "customer-test": "node scripts/customer-test.js",
+    "reset-admin": "node scripts/reset-admin.js",
+    "set-email": "node scripts/set-user-email.js",
+    "reset-2fa": "node scripts/reset-2fa.js",
+    "check-updates": "node scripts/watch-updates.js",
+    "watchdog": "node scripts/watchdog.js",
+    "watchdog-once": "node scripts/watchdog.js --once",
+    "firestore-status": "node scripts/firestore-migrate.js --status",
+    "firestore-backup": "node scripts/firestore-backup.js",
+    "smoke-test": "node scripts/smoke-test.js",
+    "ci": "npm run smoke-test && npm run customer-test && npm run security-test"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.19.0",
+    "firebase-admin": "^14.5.1",
+    "firebase-functions": "^7.4.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.5.0",
+    "nodemailer": "^10.6.0"
+  }
+}

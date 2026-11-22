@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Steel Yard Ledger — Alpha — private material and hardware catalogue, organized by category." />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Steel Yard Ledger — Alpha</title>
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css?v=3" />
+    <link rel="stylesheet" href="/auth.css" />
+  </head>
+  <body class="requires-session">
+    <header class="site-header">
+      <div class="session-bar">
+        <span class="session-user">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="user-label">Signed in</span>
+          <span class="session-role" id="user-role" hidden></span>
+        </span>
+        <span class="session-actions">
+          <a class="session-link" href="/">Home</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" id="orders-link" href="/orders" hidden>Orders</a>
+          <a class="session-link" id="admin-link" href="/admin" hidden>Admin</a>
+          <button type="button" class="session-link" id="change-password-button" hidden>Change password</button>
+          <button type="button" class="session-link" id="logout-button">Sign out</button>
+        </span>
+      </div>
+
+      <div class="header-inner">
+        <div class="header-copy">
+          <p class="brand-mark">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <circle cx="32" cy="32" r="30" fill="#202325"/>
+              <circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/>
+              <path d="M17.5 39.5 32 15l14.5 24.5" fill="none" stroke="#fdfdfc" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M27.2 39.5 32 30l4.8 9.5Z" fill="#ffc400"/>
+              <path d="M15.5 44.5h33l-2.6 6.5H18.1Z" fill="#ffc400"/>
+              <circle cx="32" cy="54.4" r="2.2" fill="#fdfdfc"/>
+            </svg>
+            Steel Yard Ledger — Alpha
+          </p>
+          <h1>Materials<br /><span class="thin">master list</span></h1>
+          <p class="subtitle">The complete yard inventory, organized by category. Search, filter, and check the current rate of every item.</p>
+        </div>
+
+        <div class="stats" aria-label="List summary">
+          <div class="stat">
+            <span class="stat-value" id="stat-items">—</span>
+            <span class="stat-label">Materials</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-categories">—</span>
+            <span class="stat-label">Categories</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="toolbar" aria-label="Search and filter materials">
+        <div class="search-wrap">
+          <svg
+            class="search-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search by product, size, or category…"
+            autocomplete="off"
+            aria-label="Search materials"
+          />
+        </div>
+
+        <button type="button" class="clear-button" id="clear-button" hidden>
+          Clear
+        </button>
+
+        <button type="button" class="primary-button" id="add-item-button" hidden>+ Add item</button>
+        <label class="sort-wrap">Sort <select id="sort-select" aria-label="Sort products"><option value="default">Recommended</option><option value="price-low">Price: Low to high</option><option value="price-high">Price: High to low</option><option value="name">Name: A to Z</option></select></label>
+        <p class="result-count" id="result-count" aria-live="polite">Loading materials…</p>
+      </section>
+
+      <div class="status-banner" id="status-banner" role="status" hidden></div>
+
+      <nav class="category-nav" id="category-nav" aria-label="Filter by category"></nav>
+
+      <div id="materials-root" class="catalog-root"></div>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <h2>Nothing on this shelf</h2>
+        <p>No materials match the current search or category.</p>
+      </div>
+    </main>
+
+    <dialog class="item-dialog" id="item-dialog" aria-labelledby="dialog-title">
+      <form id="item-form" class="item-form" novalidate>
+        <div class="dialog-heading">
+          <div>
+            <h2 id="dialog-title">Add material</h2>
+          </div>
+          <button type="button" class="icon-button" id="close-dialog" aria-label="Close">×</button>
+        </div>
+        <label>Category
+          <select id="item-category" required></select>
+        </label>
+        <label>Product name
+          <input id="item-product" type="text" maxlength="120" required placeholder="Enter product name">
+        </label>
+        <div class="form-grid">
+          <label>Size / Specification
+            <input id="item-size" type="text" maxlength="120" placeholder="e.g. 12 mm">
+          </label>
+          <label>Price
+            <input id="item-price" type="number" min="0" step="0.01" placeholder="Enter price">
+          </label>
+        </div>
+        <div class="form-grid">
+          <label>Unit
+            <input id="item-unit" type="text" maxlength="40" placeholder="e.g. piece, kg">
+          </label>
+          <label>Notes
+            <input id="item-notes" type="text" maxlength="200" placeholder="Optional notes">
+          </label>
+        </div>
+        <div class="form-grid" id="order-status-field" hidden>
+          <label>Order status
+            <select id="item-order-status">
+              <option value="to_order">Need to order</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
+          <span></span>
+        </div>
+        <div class="image-upload-field">
+          <label for="item-image">Product picture</label>
+          <input id="item-image" type="file" accept="image/jpeg,image/png,image/webp">
+          <div class="image-preview-wrap">
+            <img id="item-image-preview" alt="Product image preview" hidden>
+            <span id="item-image-empty">No picture selected</span>
+            <button type="button" id="remove-item-image" class="remove-image-button" hidden>Remove picture</button>
+          </div>
+          <small>Choose a JPG, PNG or WEBP photo up to 15 MB. Photos are compressed and auto-cropped to a 4:3 frame.</small>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="danger-button" id="delete-item-button" hidden>Delete item</button>
+          <span class="dialog-actions-spacer"></span>
+          <button type="button" class="secondary-button" id="cancel-dialog">Cancel</button>
+          <button type="submit" class="primary-button" id="save-item-button">Save item</button>
+        </div>
+      </form>
+    </dialog>
+
+    <footer class="site-footer">
+      <p><span class="dash">—</span> means the value is not specified in the source table.</p>
+      <p>Private inventory. Access requires administrator approval.</p>
+    </footer>
+
+    <script src="/session-ui.js?v=5"></script>
+    <script src="/app.js?v=4"></script>
+  </body>
+</html>

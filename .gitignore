@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Live data: service account key, TLS keys, backups
+data/
+
+# Local environment overrides
+.env
+.env.*
+
+# Logs / editor noise
+*.log
+.DS_Store
+Thumbs.db
+
+# Firebase CLI
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+functions/.env
+functions/.env.*
+
+# Team-report artifacts — generated, not versioned
+team-reports/
+
+# Legacy code/data — generated, not versioned
+legacy/
+
+# Secrets — never committed
+secrets/

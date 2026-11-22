@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: windows-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.5"
+      - name: Install deps
+        run: npm ci
+      - name: Unit tests
+        run: npm run unit-test
+      - name: Customer tests
+        run: npm run customer-test
+      - name: Security tests
+        run: npm run security-test
+      - name: Smoke test
+        run: npm run smoke-test

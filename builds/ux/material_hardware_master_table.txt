@@ -1,0 +1,208 @@
+Sr.No	Category	         Product	           Size / Specification	          Price    Units
+1	TMT Rods                  TATA                           6 mm	                            piece	
+2	TMT Rods                  TATA                           8 mm	                            piece
+3	TMT Rods                  TATA                          10 mm	   		   648      piece
+4	TMT Rods                  TATA                          12 mm	         	   910
+5	TMT Rods                  TATA                          16 mm			
+6	TMT Rods                  TATA                          20 mm			
+7	TMT Rods                  Birla                          6 mm			     77      kgs
+8	TMT Rods                  Birla                          8 mm			     74      kgs
+9	TMT Rods                  Birla                       10, 12, 16, 20 mm		     72      kgs
+10	TMT Rods                  Durastrong                    12 mm			     68      kgs
+11	TMT Rods                  Rajaram                       12, 16 mm		     68      kgs
+12	Round Pipes & Square	  TATA		                                             98	     kgs	
+13	Round Pipes & Square	  Apollo				
+14	Round Pipes & Square	  Square plumbing pipe		                             500    pieces	
+15	Round Pipes & Square	  Remaining pipes		                              88      kgs
+16	Round Pipes & Square	  MS pipe		                                      78      kgs 
+17	Round Pipes & Square	  TATA G.I. pipe		                             150      kgs	
+18	General Items             Flat		                                              74      kgs
+19	General Items         	  L-Angular		                                      74      kgs	
+9	General Items	          Belgium Rod					
+10	General Items             MS Rod					
+11	General Items             Bandikammi					
+12	General Items             C-channel					
+13	Blue Sheet          	  HR sheet					
+14	Blue Sheet                G.I. sheet					
+15	Blue Sheet        	  Durastrong	                 5.0		
+16	Blue Sheet      	  TATA	                         5.0 or 4.7				
+17	Blue Sheet       	  White sheet	                                               80      feet
+18	Blue Sheet      	  L-corner					
+19	General Items             Welding mesh		                                       90      kgs
+20	General Items             Rod	                         5 x 5				
+21	General Items             Square rod	                 6 mm				
+22	TMT Rods                  Ring	                         7 x 14				
+23	TMT Rods           	  Ring	                         7 x 12				
+24	TMT Rods          	  Ring	                         7 x 10				
+25	TMT Rods         	  Ring	                         7 x 7				
+26	TMT Rods        	  Ring	                         4 x 16				
+27	TMT Rods        	  Ring	                         4 x 14				
+28	TMT Rods        	  Ring	                         4 x 12				
+29	TMT Rods        	  Ring	                         4 x 10				
+30	TMT Rods         	  Ring	                         4 x 7				
+31	TMT Rods         	  Ring	                         4 x 4				
+32	TMT Rods         	  Ring	                         4 x 2				
+33	TMT Rods         	  Ring	                         3 x 7				
+34	Tractor Items             Seedbox                        6 holes					
+35	Tractor Items             Seedbox                        8 holes					
+36	Tractor Items             Seed pipe					
+37	Tractor Items             gorru Mollalu                  Small					
+38	Tractor Items          	  gorru Mollalu                  Big					
+39      General Items	          Tubs / Golams	                 23 liters			260	
+40	General Items	          Tubs / Golams	                 16 liters			195	
+41	General Items	          Small tubs				                        125	
+42	General Items	          Drums					
+43	General Items	          Nails	All			                                100	
+44	General Items	          Grass cutting blades            Small			         80	
+45	General Items	          Grass cutting blades            Big			        100	
+46	General Items	          Banana blades	Plastic			                        200	
+47	General Items	          Banana blades	Wood			                        270	
+48      General Items	          Parallel	                  Small			        160	
+49	General Items	          Parallel	                  Big			        220	
+50	General Items	          Parallel	                  Very small				
+51	General Items	          Z-clamp	                   4 inches			
+52	General Items	          Z-clamp	                   6 inches		
+53	Gate & Hand Tools	  Bolts	                                                        140				
+54	Gate & Hand Tools	  Gate pins
+        Gate & Hand Tools         Gate pins
+        Gate & Hand Tools         Gate pins
+        Gate & Hand Tools         Gate pins				
+55	Gate & Hand Tools	  Oil leakage oil	          5 ltrs 
+        Gate & Ha                         Oil leakage oil                             1 ltrs				
+56	Gate & Hand Tools	  Pickaxe TATA				
+57	Gate & Hand Tools	  Pickaxe Normal				
+58	Gate & Hand Tools	  Lorry Kellu	                  6 inches				
+59	Gate & Hand Tools	  Kellu	                          5 inches				
+60	Gate & Hand Tools	  Kellu	                          4 inches				
+61	Gate & Hand Tools	  Kellu	                          3 inches				
+62	Gate & Hand Tools	  Kellu	                          2 inches				
+63	Gate & Hand Tools	  Grass blade					
+64	Gate & Hand Tools	  Tower bolts	                  1/2 feet				
+65	Gate & Hand Tools	  Tower bolts	                  1 feet				
+66	Gate & Hand Tools	  Tower bolts	                  1.1/2 feet								
+68	Gate & Hand Tools	  Aluminium pipes	                     10				
+69	Gate & Hand Tools	  Aluminium pipes	                     20				
+70	Gate & Hand Tools	  Aluminium pipes	                     30				
+71	Gate & Hand Tools	  Aluminium pipes	                     40				
+72	Gate & Hand Tools	  Gate handle					
+73	Gate Hardware	          Gate wheel Single				
+74	Gate Hardware	          Gate wheel Double				
+75	Gate Hardware	          Gold Gadallu	                              1 feet / 10 inches [check]				
+76	Gate Hardware	          Titanic lock	Single				
+77	Gate Hardware	          Titanic lock	Double				
+78	Gate Hardware	          MS Gadallu (steel)	                       1 feet				
+79	Gate Hardware	          Gubball	                              1/2 x 1/2 [check]				
+80	Gate Hardware	          Gubball	                              2 x 2 [check]				
+81	Gate Hardware	          Gubball	                              1 x 4 [check]				
+82	Gate Hardware	          Black Gradda (big)	                      1 feet				
+83	Gate Hardware	          Black Gradda (big)	                      "8"""				
+84	Gate Hardware	          Gate roller  Single				
+85	Gate Hardware	          Gate roller	Double				
+86	Gate Hardware	          Roofing plate	2 x 4				
+87	Gate Hardware	          Roofing plate	3 x 6				
+88	Gate Hardware	          Hooks (TATA)	1/2 x 1/2				
+89	Gate Hardware	          Hooks (TATA)	2 x 2				
+90	Gate Hardware	          Hooks (TATA)	2 1/2 x 2 1/2				
+91	Gate Hardware	          Chathubilla (wheels)	"Plastic 2"""			650	
+92	Gate Hardware	          Chathubilla (wheels)	"Plastic 6"""				
+93	Gate Hardware	          Chathubilla (wheels)	"Plastic 5"""			400	
+94	Gate Hardware	          Chathubilla (wheels)	"Plastic 4"""			300	
+95	Gate Hardware	          Chathubilla (wheels)	"5"""				
+96	Gate Hardware	          Chathubilla (wheels)	"1"""				
+97	Fasteners & Tools	  Screws (TATA)	Normal				
+98	Fasteners & Tools	  S-clamp (Grade)	Wood strip - 1 feet				
+99	Fasteners & Tools	  S-clamp (Grade)	10 inches				
+100	Fasteners & Tools	  S-clamp (Grade)	8 inches				
+101	Fasteners & Tools	  J-Kandi	Small [check]				
+102	Fasteners & Tools	  Plastic thapi	Size unclear				
+103	Fasteners & Tools	  Gum / GUM	10 inches [unclear]				
+104	Fasteners & Tools	  Plastic thapi	Big				
+105	Fasteners & Tools	  Plastic thapi	Small				
+106	Fasteners & Tools	  Catering hammer (steel)					
+107	Fasteners & Tools	  Plastic piddi	Yellow				
+108	Fasteners & Tools	  Plastic piddi	Black				
+109	Fasteners & Tools	  Wood hammer					
+110	Fasteners & Tools	  Hammer (no handle)	Big			1800	
+111	Fasteners & Tools	  Hammer (no handle)	Big			1550	
+112	Fasteners & Tools	  Hammer (no handle)	Big (blue)				
+113	Fasteners & Tools	  Hammer (no handle)	Small				
+114	Fasteners & Tools	  Steel nuts	"2"""				
+115	Fasteners & Tools	  Steel nuts	"4"""				
+116	Fasteners & Tools	  Steel nuts	"3"""				
+117	Fasteners & Tools	  Steel nuts	"1"""				
+118	Fasteners & Tools	  Steel nuts	"5"""				
+119	Fasteners & Tools	  Level tube					
+120	Fasteners & Tools	  Wall threads	White				
+121	Design & Fabrication	  Inter(s) / item	1 x 2; 10 x [unclear]	120	kg		
+122	Design & Fabrication	  Sandness	750 pcs				
+123	Design & Fabrication	  Green sheet					
+124	Design & Fabrication	  Fiber sheet					
+125	Design & Fabrication	  Plain hole piece					
+126	Design & Fabrication	  L-hole piece					
+127	Design & Fabrication	  Foundation rods	8 x 8 plates				
+128	Design & Fabrication	  Foundation rods	6 x 6 plates				
+129	Design & Fabrication	  Foundation rods	4 x 4 plates				
+130	Design & Fabrication	  Black - Tata wire				110	
+131	Design & Fabrication	  Black - Normal				100	
+132	Design & Fabrication	  Grass digging tool	Two-sided				
+133	Design & Fabrication	  Grass digging tool	One-sided				
+134	Design & Fabrication	  Grass digging tool	Teeth				
+135	Design & Fabrication	  Panja	Big size (two-sided)				
+136	Design & Fabrication	  Diamond mass	"6"""				
+137	Design & Fabrication	  TATA parallel	Red				
+138	Design & Fabrication	  TATA item	[unclear]				
+139	Design & Fabrication	  Normal					
+140	Design & Fabrication	  Steel Golem	[check spelling]				
+141	Design & Fabrication	  Tail kellu	"1 feet / 10"""				
+142	Design & Fabrication	  Wire	Tata wire - 10				
+143	Design & Fabrication	  Wire	Normal wire - 140				
+144	Gloves, Pipes & Concrete	Gloves	Plastic				
+145	Gloves, Pipes & Concrete	Gloves	Clothes				
+146	Gloves, Pipes & Concrete	Livers / item	16 mm [check]				
+147	Gloves, Pipes & Concrete	Livers / item	12 mm [check]				
+148	Gloves, Pipes & Concrete	Livers / item	10 mm [check]				
+149	Gloves, Pipes & Concrete	Livers / item	8 mm [check]				
+150	Gloves, Pipes & Concrete	Livers / item	6 mm [check]				
+151	Gloves, Pipes & Concrete	Malallu	Black				
+152	Gloves, Pipes & Concrete	Malallu	Red				
+153	Gloves, Pipes & Concrete	Malallu	Blue				
+154	Gloves, Pipes & Concrete	Malallu	Round				
+155	Gloves, Pipes & Concrete	Channels	Black				
+156	Gloves, Pipes & Concrete	Channels	Blue				
+157	Gloves, Pipes & Concrete	Centring pipes					
+158	Gloves, Pipes & Concrete	Concrete sheets					
+159	Gloves, Pipes & Concrete	Welding rods					
+160	Gloves, Pipes & Concrete	Anchor bolts	1				
+161	Gloves, Pipes & Concrete	Anchor bolts	2				
+162	Gloves, Pipes & Concrete	Anchor bolts	3				
+163	Gloves, Pipes & Concrete	Anchor bolts	4				
+164	Tractor Items	                Centerlink rod 	
+165     Tractor Items                   Palugulu  	3 feet			
+165	Tractor Items	                Palugulu 	4 feet				
+166	Tractor Items	                Tractor size	5 feet				
+167	Tractor Items	                Tractor size	6 feet				
+168	Tractor Items	                Tractor size	7				
+169	Tractor Items	                Tractor size	8				
+170	Tractor Items	                Tractor size	9				
+171	Tractor Items	                Tractor size	10							
+173	Tractor Items	                Itchi bush					
+174	Tractor Items	                Itchi blade					
+175	Tractor Items	                V-clamp	Big				
+176	Tractor Items	                V-clamp	Small				
+177	Tractor Items	                Itchi pins					
+178	Tractor Items	                door rods					
+179	Tractor Items	                Tail	Stand				
+180	Tractor Items	                Thokalu	Big				
+181	Tractor Items	                Thokalu	Small				
+182	Tractor Items	                Rother plates	Black				
+183	Tractor Items	                Rother plates	Orange				
+184	Tractor Items	                Rother plates	Blue				
+185	Tractor Items	                Tractor bite	16 [check]				
+186	Tractor Items	                Tractor bite	10 [check]				
+187	Tractor Items	                Tractor bite	7 [check]				
+188	Tractor Items	                Tractor bite	8 [check]				
+189	Tractor Items	                Madakalu plates	7 plates				
+190	Tractor Items	                Filler plates					
+191	Tractor Items	                Dozer plates					
+192	Tractor Items	                Arrow plate	Big				
+193	Tractor Items	                Arrow plate	Small				

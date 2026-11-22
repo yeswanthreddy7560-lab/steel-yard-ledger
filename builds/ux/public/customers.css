@@ -1,0 +1,592 @@
+/* ====================================================================
+   Steel Yard Ledger — Modern Ledger Build (UX/Design Visionary pass)
+
+   Customer register pages (ledger table, summary cards, pager).
+   Strong palettes for light/dark, mobile-first, print styles.
+   Class names used by customers.js are preserved.
+   ==================================================================== */
+
+/* ---------------------------------------------------------------- */
+/* Dashboard summary cards                                          */
+/* ---------------------------------------------------------------- */
+
+.cust-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  padding-bottom: 22px;
+}
+
+.cust-card {
+  display: grid;
+  gap: 2px;
+  padding: 18px 22px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.cust-card:hover {
+  border-color: var(--ink);
+}
+
+.cust-card-value {
+  font-family: var(--display);
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 0.95;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.cust-card-label {
+  color: var(--steel);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.cust-card--total {
+  border-top-color: var(--accent);
+}
+
+.cust-card--total .cust-card-value {
+  color: var(--accent);
+}
+
+.cust-card--active {
+  border-top-color: var(--ok);
+}
+
+.cust-card--active .cust-card-value {
+  color: var(--ok);
+}
+
+.cust-card--soon {
+  border-top-color: var(--soon);
+}
+
+.cust-card--soon .cust-card-value {
+  color: var(--soon);
+}
+
+.cust-card--expired {
+  border-top-color: var(--oxide);
+}
+
+.cust-card--expired .cust-card-value {
+  color: var(--oxide-ink);
+}
+
+/* ---------------------------------------------------------------- */
+/* Toolbar / filter panel                                           */
+/* ---------------------------------------------------------------- */
+
+.cust-toolbar {
+  padding-bottom: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.cust-toolbar .result-count {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.filter-panel {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.filter-panel label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.filter-panel select,
+.filter-panel input[type="date"] {
+  min-width: 150px;
+  padding: 10px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.filter-panel select:focus,
+.filter-panel input[type="date"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+/* Bill book sheet selector */
+
+.book-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.book-select select {
+  min-width: 170px;
+  max-width: 260px;
+  padding: 10px 34px 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  appearance: none;
+}
+
+.book-select select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.book-select span {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---------------------------------------------------------------- */
+/* Ledger table                                                     */
+/* ---------------------------------------------------------------- */
+
+.ledger-card {
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  overflow: hidden;
+}
+
+.ledger-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ledger-table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.ledger-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 12px 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--ink);
+}
+
+.ledger-table tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  vertical-align: middle;
+}
+
+.ledger-table tbody tr:hover td {
+  background: var(--bg-2);
+}
+
+.ledger-table .col-sno {
+  width: 64px;
+  text-align: right;
+}
+
+.ledger-table td.cust-sno {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--steel);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-table td.cust-name {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ledger-table .col-num {
+  text-align: right;
+}
+
+.ledger-table td.cust-amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.ledger-table td.cust-amount:empty {
+  color: var(--steel);
+}
+
+.ledger-table .col-actions,
+.ledger-table td.cust-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cust-mono {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+}
+
+.cust-date {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+/* Expired rows read as struck-off ledger lines */
+
+.ledger-table tr.is-expired td {
+  background: var(--oxide-bg);
+}
+
+.ledger-table tr.is-expired td:first-child {
+  box-shadow: inset 5px 0 0 var(--oxide);
+}
+
+.ledger-table tr.is-expired td.cust-name {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+/* Status badges — strong, high-visibility */
+
+.cust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.cust-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cust-badge--active {
+  border: 2px solid var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.cust-badge--soon {
+  border: 2px solid var(--soon);
+  background: var(--soon-bg);
+  color: var(--soon-ink);
+}
+
+.cust-badge--expired {
+  border: 2px solid var(--oxide);
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+}
+
+/* Row action buttons */
+
+.cust-row-button {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.cust-row-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.cust-row-button--danger {
+  border-color: var(--oxide);
+  color: var(--oxide-ink);
+}
+
+.cust-row-button--danger:hover {
+  background: var(--oxide-bg);
+  border-color: var(--oxide);
+}
+
+.ledger-table .empty-actions {
+  color: var(--steel);
+}
+
+/* Pagination */
+
+.ledger-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--card);
+}
+
+.ledger-pageinfo {
+  color: var(--steel);
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-pager {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.ledger-empty-row td {
+  padding: 26px 14px;
+  text-align: center;
+  color: var(--steel);
+  font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------- */
+/* Delete confirmation                                              */
+/* ---------------------------------------------------------------- */
+
+.cust-confirm {
+  width: min(480px, calc(100% - 28px));
+}
+
+.cust-confirm-copy {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------------- */
+/* Toasts                                                           */
+/* ---------------------------------------------------------------- */
+
+.toast-region {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.toast {
+  max-width: min(360px, calc(100vw - 36px));
+  padding: 12px 16px;
+  border: 2px solid var(--ok);
+  border-left: 6px solid var(--ok);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  animation: toast-in 0.16s ease-out;
+}
+
+.toast--error {
+  border-color: var(--oxide);
+  border-left-color: var(--oxide);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Responsive (mobile-first)                                        */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .cust-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .cust-cards {
+    gap: 10px;
+    padding-bottom: 18px;
+  }
+
+  .cust-card {
+    padding: 12px 14px 10px;
+  }
+
+  .cust-card-value {
+    font-size: 2.2rem;
+  }
+
+  .cust-toolbar .result-count {
+    flex-basis: auto;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .filter-panel input[type="date"],
+  .filter-panel select {
+    flex: 1;
+    min-width: 130px;
+  }
+
+  .book-select select {
+    min-width: 120px;
+  }
+
+  .cust-row-button {
+    padding: 8px 12px;
+  }
+
+  .ledger-table thead th {
+    padding: 10px 12px;
+    font-size: 0.72rem;
+  }
+
+  .ledger-table tbody td {
+    padding: 9px 10px;
+    font-size: 0.86rem;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Print                                                            */
+/* ---------------------------------------------------------------- */
+
+@media print {
+  .cust-cards,
+  .cust-toolbar,
+  .filter-panel,
+  .ledger-footer,
+  .site-footer,
+  .status-banner,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  .cust-cards {
+    display: block !important;
+  }
+
+  .cust-card {
+    border: none;
+    padding: 0;
+  }
+
+  .cust-card-value {
+    font-size: 1.4rem;
+  }
+
+  .cust-card-label {
+    color: #000;
+  }
+
+  .ledger-card {
+    border-color: #000;
+    box-shadow: none;
+  }
+
+  .ledger-scroll {
+    overflow: visible;
+  }
+
+  .ledger-table {
+    min-width: 0;
+  }
+
+  .ledger-table thead th {
+    background: #000;
+    color: #fff;
+    border-bottom: 2px solid #000;
+  }
+
+  .ledger-table tbody tr:hover td {
+    background: #fff;
+  }
+
+  .ledger-table tbody td {
+    border-bottom: 1px solid #000;
+  }
+
+  .ledger-table tr.is-expired td {
+    background: #fff;
+  }
+
+  .cust-badge--expired {
+    border-color: #000;
+    background: #fff;
+    color: #000;
+  }
+
+  .cust-row-button,
+  .empty-actions,
+  .toast {
+    display: none;
+  }
+}

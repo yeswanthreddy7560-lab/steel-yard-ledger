@@ -1,0 +1,16 @@
+# Steel Yard Ledger — Prometheus scrape config.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 30s
+
+rule_files:
+  - alerts.yml
+
+scrape_configs:
+  - job_name: steel-yard-ledger-app
+    metrics_path: /api/metrics
+    static_configs:
+      - targets: ["app:3000"]
+  - job_name: steel-yard-ledger-node-exporter
+    static_configs:
+      - targets: ["node-exporter:9100"]

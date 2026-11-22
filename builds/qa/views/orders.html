@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orders ledger: what still needs ordering and what is completed." />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Orders · Steel Yard Ledger — Alpha</title>
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/auth.css" />
+    <link rel="stylesheet" href="/customers.css" />
+    <link rel="stylesheet" href="/orders.css" />
+  </head>
+  <body class="requires-session">
+    <header class="site-header">
+      <div class="session-bar">
+        <span class="session-user">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="user-label">Signed in</span>
+          <span class="session-role" id="user-role" hidden></span>
+        </span>
+        <span class="session-actions">
+          <a class="session-link" href="/">Home</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" href="/orders" aria-current="page">Orders</a>
+          <a class="session-link" id="admin-link" href="/admin" hidden>Admin</a>
+          <button type="button" class="session-link" id="change-password-button" hidden>Change password</button>
+          <button type="button" class="session-link" id="logout-button">Sign out</button>
+        </span>
+      </div>
+
+      <div class="header-inner">
+        <div class="header-copy">
+          <p class="brand-mark">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <circle cx="32" cy="32" r="30" fill="#202325"/>
+              <circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/>
+              <path d="M17.5 39.5 32 15l14.5 24.5" fill="none" stroke="#fdfdfc" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M27.2 39.5 32 30l4.8 9.5Z" fill="#ffc400"/>
+              <path d="M15.5 44.5h33l-2.6 6.5H18.1Z" fill="#ffc400"/>
+              <circle cx="32" cy="54.4" r="2.2" fill="#fdfdfc"/>
+            </svg>
+            Steel Yard Ledger — Alpha
+          </p>
+          <h1>Orders<br /><span class="thin">tracker</span></h1>
+          <p class="subtitle">Everything you still need to order and everything already completed — flip a row's status with one click.</p>
+        </div>
+
+        <div class="stats" aria-label="Orders summary">
+          <div class="stat">
+            <span class="stat-value" id="stat-total">—</span>
+            <span class="stat-label">Orders</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-pending">—</span>
+            <span class="stat-label">To order</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <!-- Dashboard summary cards -->
+      <section class="cust-cards" aria-label="Orders status summary">
+        <div class="cust-card cust-card--total">
+          <span class="cust-card-value" id="card-total">—</span>
+          <span class="cust-card-label">Total orders</span>
+        </div>
+        <div class="cust-card cust-card--active">
+          <span class="cust-card-value" id="card-pending">—</span>
+          <span class="cust-card-label">Need to order</span>
+        </div>
+        <div class="cust-card cust-card--soon">
+          <span class="cust-card-value" id="card-completed">—</span>
+          <span class="cust-card-label">Completed</span>
+        </div>
+      </section>
+
+      <!-- Search / filter / add -->
+      <section class="toolbar cust-toolbar" aria-label="Search and filter orders">
+        <div class="search-wrap">
+          <svg
+            class="search-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search orders by product, size, or notes…"
+            autocomplete="off"
+            aria-label="Search orders"
+          />
+        </div>
+
+        <button type="button" class="clear-button" id="clear-button" hidden>Clear</button>
+
+        <label class="sort-wrap">Status
+          <select id="status-select" aria-label="Filter by order status">
+            <option value="all">All</option>
+            <option value="to_order">Need to order</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+
+        <button type="button" class="primary-button" id="add-order-button">+ Add order</button>
+        <p class="result-count" id="result-count" aria-live="polite">Loading orders…</p>
+      </section>
+
+      <div class="status-banner" id="status-banner" role="status" hidden></div>
+
+      <!-- Orders ledger table -->
+      <section class="ledger-card">
+        <div class="ledger-scroll">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th class="col-sno">#</th>
+              <th>Product</th>
+              <th>Size</th>
+              <th class="col-num">Price</th>
+              <th class="orders-notes-col">Notes</th>
+              <th>Status</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-body"></tbody>
+        </table>
+        </div>
+        <div class="empty-state" id="empty-state" hidden>
+          <h2>No orders here yet</h2>
+          <p id="empty-message">Your order list is empty. Add the first item you need to order.</p>
+          <button type="button" class="primary-button" id="empty-add-button">+ Add order</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Add / edit order dialog -->
+    <dialog class="item-dialog" id="order-dialog" aria-labelledby="order-dialog-title">
+      <form id="order-form" class="item-form" novalidate>
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow dialog-eyebrow" id="order-dialog-eyebrow">Orders</p>
+            <h2 id="order-dialog-title">Add order</h2>
+          </div>
+          <button type="button" class="icon-button" id="close-order-dialog" aria-label="Close">×</button>
+        </div>
+
+        <label>Product
+          <input type="text" id="order-product" required maxlength="120" autocomplete="off" />
+        </label>
+        <label>Size / specification
+          <input type="text" id="order-size" maxlength="120" autocomplete="off" />
+        </label>
+        <label>Price (₹)
+          <input type="text" id="order-price" inputmode="decimal" maxlength="16" autocomplete="off" />
+        </label>
+        <label>Unit (kg, piece, …)
+          <input type="text" id="order-unit" maxlength="24" autocomplete="off" />
+        </label>
+        <label>Status
+          <select id="order-status">
+            <option value="to_order">Need to order</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+        <label>Notes
+          <textarea id="order-notes" maxlength="240" rows="3"></textarea>
+        </label>
+
+        <p class="item-form-error" id="order-form-error" hidden></p>
+
+        <div class="dialog-actions">
+          <button type="button" class="secondary-button" id="cancel-order-dialog">Cancel</button>
+          <button type="submit" class="primary-button" id="save-order-button">Add order</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Delete confirmation dialog -->
+    <dialog class="item-dialog cust-confirm" id="delete-dialog" aria-labelledby="delete-dialog-title">
+      <form id="delete-form" class="item-form" method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow dialog-eyebrow">Permanently delete</p>
+            <h2 id="delete-dialog-title">Delete order?</h2>
+          </div>
+          <button type="button" class="icon-button" id="close-delete-dialog" aria-label="Close">×</button>
+        </div>
+        <p class="cust-confirm-copy" id="delete-copy">This order will be removed permanently.</p>
+        <p class="item-form-error" id="delete-error" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary-button" id="cancel-delete-button">Cancel</button>
+          <button type="submit" class="primary-button cust-row-button--danger" id="confirm-delete-button">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/session-ui.js?v=5"></script>
+    <script src="/orders.js?v=1"></script>
+  </body>
+</html>

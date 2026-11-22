@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Sai Hardware Items — app badge -->
+  <circle cx="32" cy="32" r="30" fill="#202325"/>
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/>
+  <!-- peak -->
+  <path d="M17.5 39.5 32 15l14.5 24.5" fill="none" stroke="#fdfdfc" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M27.2 39.5 32 30l4.8 9.5Z" fill="#ffc400"/>
+  <!-- steel ingot -->
+  <path d="M15.5 44.5h33l-2.6 6.5H18.1Z" fill="#ffc400"/>
+  <path d="M15.5 44.5h33l-.6 1.5H16.1Z" fill="#1c1e20" opacity="0.25"/>
+  <!-- bolt stud -->
+  <circle cx="32" cy="54.4" r="2.2" fill="#fdfdfc"/>
+</svg>

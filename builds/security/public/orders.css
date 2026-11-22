@@ -1,0 +1,32 @@
+/* ================================================================
+   Orders page — ledger layout shared with the Customer Register
+   (customers.css); this file only adds the small order-specific bits.
+   ================================================================ */
+
+.orders-notes-col {
+  max-width: 260px;
+}
+
+.orders-notes-cell {
+  color: var(--steel);
+  font-size: 0.86rem;
+}
+
+.ledger-table td.orders-price {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ledger-table tr.is-order-completed td {
+  color: var(--steel);
+  background: color-mix(in srgb, var(--ok-ink) 5%, transparent);
+}
+
+.ledger-table tr.is-order-completed td:first-child {
+  box-shadow: inset 3px 0 0 var(--ok-ink);
+}
+
+/* Status pills reuse the catalogue order badges (styles.css). */
+.ledger-table .order-badge {
+  white-space: nowrap;
+}

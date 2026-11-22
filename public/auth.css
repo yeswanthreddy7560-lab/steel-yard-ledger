@@ -1,0 +1,791 @@
+/* ================================================================
+   Session bar, auth pages, admin console — "Steel Yard Ledger"
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Session bar (sits on the dark masthead)
+   ---------------------------------------------------------------- */
+
+.session-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  max-width: 1240px;
+  margin: 0 auto 30px;
+  color: var(--plate-ink-dim);
+  font-size: 0.84rem;
+}
+
+.session-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px;
+  border: 1px solid var(--plate-line);
+  background: var(--plate-2);
+  color: var(--plate-ink);
+}
+
+.session-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hazard);
+}
+
+.session-role {
+  padding: 2px 6px;
+  background: var(--hazard);
+  color: var(--ink);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.session-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.session-link {
+  padding: 7px 11px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--plate-ink);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.session-link:hover {
+  border-color: var(--plate-line);
+  background: var(--plate-2);
+  color: var(--white);
+}
+
+/* ----------------------------------------------------------------
+   Status banner
+   ---------------------------------------------------------------- */
+
+.status-banner {
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-dark);
+  border-left: 4px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.status-success {
+  border-color: var(--ok-ink);
+  border-left-color: var(--ok-ink);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}
+
+.status-error {
+  border-color: var(--oxide);
+  border-left-color: var(--oxide);
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+}
+
+.status-info {
+  border-left-color: var(--hazard-deep);
+}
+
+.danger-button {
+  padding: 10px 16px;
+  border-color: var(--oxide);
+  background: var(--white);
+  color: var(--oxide-ink);
+}
+
+.danger-button:hover {
+  background: var(--oxide-bg);
+}
+
+.danger-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* ----------------------------------------------------------------
+   Auth pages — split: steel plate brand panel / paper form
+   ---------------------------------------------------------------- */
+
+body.auth-page {
+  min-height: 100vh;
+  display: flex;
+  background: var(--paper);
+}
+
+.auth-brand-panel {
+  display: flex;
+  position: relative;
+  flex: 1 1 44%;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 34px 38px;
+  background: var(--plate);
+  color: var(--plate-ink);
+}
+
+.auth-brand-panel::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 7px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--hazard) 0 14px,
+    var(--ink) 14px 28px
+  );
+}
+
+.auth-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--plate-ink-dim);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.auth-brand-mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+.auth-brand {
+  margin: auto 0;
+  padding: 40px 0;
+}
+
+.auth-brand h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 4.5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.auth-brand .accent {
+  color: var(--hazard);
+}
+
+.auth-brand p {
+  margin: 14px 0 0;
+  max-width: 30ch;
+  color: var(--plate-ink-dim);
+  font-size: 0.94rem;
+}
+
+.auth-brand-foot {
+  color: var(--plate-ink-dim);
+  font-size: 0.78rem;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  flex: 1 1 56%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-card h2 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.auth-card .auth-subtitle {
+  margin: 0 0 22px;
+  color: var(--steel);
+  font-size: 0.92rem;
+}
+
+.auth-card form {
+  display: grid;
+  gap: 14px;
+}
+
+.auth-card label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+}
+
+.auth-card input:hover {
+  border-color: var(--ink-soft);
+}
+
+.auth-card input:focus {
+  border-color: var(--ink);
+  outline: none;
+}
+
+/* Password field with inline eye show/hide toggle */
+
+.password-wrap {
+  position: relative;
+  display: block;
+}
+
+.password-wrap input {
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--steel);
+  line-height: 0;
+}
+
+.password-toggle:hover {
+  color: var(--ink);
+  background: var(--note-bg);
+}
+
+.password-toggle[aria-pressed="true"] {
+  color: var(--note-ink);
+}
+
+.eye-icon {
+  display: block;
+}
+
+.eye-icon[hidden] {
+  display: none;
+}
+
+/* Remember me */
+
+.auth-card .remember-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.remember-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 4px;
+  padding: 13px 16px;
+}
+
+/* Secondary actions inside the recovery flow (resend / change email). */
+.auth-link-button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--steel);
+  font: inherit;
+  font-size: 0.84rem;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.auth-link-button:hover {
+  color: var(--ink);
+}
+
+.auth-link-button:disabled {
+  color: var(--steel);
+  opacity: 0.6;
+  cursor: default;
+  text-decoration: none;
+}
+
+.otp-input {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.auth-error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--oxide);
+  border-left: 4px solid var(--oxide);
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+  font-size: 0.86rem;
+}
+
+.auth-success {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--ok-ink);
+  border-left: 4px solid var(--ok-ink);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+  font-size: 0.86rem;
+}
+
+.auth-links {
+  margin: 20px 0 0;
+  color: var(--steel);
+  font-size: 0.88rem;
+}
+
+.auth-links a {
+  color: var(--ink);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+.auth-links a:focus-visible {
+  outline-color: var(--ink);
+}
+
+.auth-note {
+  margin: 12px 0 0;
+  color: var(--steel);
+  font-size: 0.78rem;
+}
+
+.password-rules {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--steel);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 860px) {
+  body.auth-page {
+    flex-direction: column;
+  }
+
+  .auth-brand-panel {
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 24px 22px 34px;
+  }
+
+  .auth-brand {
+    margin: 26px 0;
+    padding: 0;
+  }
+
+  .auth-brand h1 {
+    font-size: 2.6rem;
+  }
+
+  .auth-brand p {
+    margin-top: 10px;
+  }
+
+  .auth-brand-foot {
+    display: none;
+  }
+
+  .auth-shell {
+    min-height: 0;
+    padding: 30px 20px 44px;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Admin console
+   ---------------------------------------------------------------- */
+
+body.admin-body {
+  background: var(--paper);
+}
+
+.admin-header {
+  position: relative;
+  padding: 22px 24px 34px;
+  background: var(--plate);
+  color: var(--plate-ink);
+  border-bottom: 1px solid var(--plate-line);
+}
+
+.admin-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 7px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--hazard) 0 14px,
+    var(--ink) 14px 28px
+  );
+}
+
+.admin-header .session-bar {
+  margin-bottom: 24px;
+}
+
+.admin-header-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 3.4rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.admin-header .accent {
+  color: var(--hazard);
+}
+
+.admin-header p {
+  margin: 10px 0 0;
+  color: var(--plate-ink-dim);
+  font-size: 0.94rem;
+}
+
+.admin-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  display: grid;
+  gap: 26px;
+}
+
+.admin-page > * {
+  min-width: 0;
+}
+
+.admin-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.summary-card {
+  padding: 18px 20px 16px;
+  border: 1px solid var(--line-dark);
+  background: var(--surface);
+}
+
+.summary-value {
+  display: block;
+  font-family: var(--display);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-label {
+  display: block;
+  margin-top: 8px;
+  color: var(--steel);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.admin-panel {
+  border: 1px solid var(--line-dark);
+  background: var(--surface);
+}
+
+.admin-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line-dark);
+  background: var(--surface);
+}
+
+.admin-panel-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.admin-panel-head p {
+  margin: 4px 0 0;
+  color: var(--steel);
+  font-size: 0.82rem;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+  background: var(--white);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-table th {
+  border-bottom: 1px solid var(--line-dark);
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--surface);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-table .cell-wrap {
+  white-space: normal;
+  min-width: 220px;
+}
+
+/* Ledger timestamps in mono — scoped per table body */
+
+#users-body td:nth-child(4),
+#users-body td:nth-child(5),
+#events-body td:nth-child(1),
+#events-body td:nth-child(4) {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.admin-table td:first-child strong {
+  font-weight: 600;
+}
+
+/* Status tags — squared, like stencil tags */
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 1px solid currentcolor;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-admin { color: var(--hazard-deep); background: var(--note-bg); }
+.badge-active { color: var(--ok-ink); background: var(--ok-bg); }
+.badge-pending { color: var(--hazard-deep); background: var(--note-bg); }
+.badge-rejected { color: var(--oxide-ink); background: var(--oxide-bg); }
+.badge-revoked { color: var(--steel); background: var(--paper); }
+
+/* Flag beside a username when an unauthenticated visitor has asked for a
+   password reset. The administrator issues the link from the actions column. */
+.reset-request {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.user-email {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: var(--steel);
+}
+
+.row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.row-actions > span {
+  color: var(--steel);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.mini-button {
+  padding: 6px 10px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mini-button:hover { border-color: var(--ink); }
+.mini-button.approve { border-color: var(--ok-ink); color: var(--ok-ink); }
+.mini-button.reject { border-color: var(--hazard-deep); color: var(--note-ink); }
+.mini-button.revoke { border-color: var(--line-dark); color: var(--steel); }
+.mini-button.delete { border-color: var(--oxide); color: var(--oxide-ink); }
+.mini-button.approve:hover { background: var(--ok-bg); }
+.mini-button.reject:hover { background: var(--note-bg); }
+.mini-button.delete:hover,
+.mini-button.revoke:hover { background: var(--paper); }
+.mini-button:disabled { opacity: 0.55; cursor: wait; }
+
+.event-type {
+  display: inline-block;
+  padding: 2px 7px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.event-type.danger {
+  border-color: var(--oxide);
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+}
+
+.event-type.success {
+  border-color: var(--ok-ink);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}
+
+.empty-cell {
+  color: var(--steel);
+  font-size: 0.85rem;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+/* ----------------------------------------------------------------
+   Print
+   ---------------------------------------------------------------- */
+
+@media print {
+  .session-bar,
+  .toolbar,
+  .category-nav,
+  .status-banner,
+  .admin-header .session-bar,
+  .row-actions,
+  .mini-button {
+    display: none;
+  }
+
+  body,
+  .admin-panel,
+  .summary-card {
+    background: #fff;
+    color: #000;
+  }
+
+  .admin-panel,
+  .summary-card {
+    border-color: #999;
+  }
+
+  .admin-header h1 {
+    color: #000;
+  }
+}
+
+/* Ownership notice (injected by auth.js on login/verify/register) */
+
+.ownership-line {
+  max-width: 420px;
+  margin: 18px auto 0;
+  text-align: center;
+  color: var(--steel);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+}

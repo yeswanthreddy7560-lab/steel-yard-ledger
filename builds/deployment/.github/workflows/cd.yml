@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Optional reason for this deployment"
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Blue/green one-click deploy
+        run: ./scripts/deploy.sh
+
+      - name: Notify (always)
+        if: always()
+        run: ./scripts/alert.sh "Deploy run #${{ github.run_number }} finished" "status=${{ job.status }} reason=${{ github.event_name == 'workflow_dispatch' && inputs.reason || '' }}" info

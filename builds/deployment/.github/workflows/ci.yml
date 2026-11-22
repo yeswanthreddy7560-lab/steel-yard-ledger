@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install deps
+        run: npm ci
+      - name: Syntax checks
+        run: |
+          node --check server.js
+          node --check start.js
+          node --check data.js
+          for f in src/*.js src/middleware/*.js src/routes/*.js scripts/smoke-test.js; do node --check "$f" || exit 1; done
+      - name: Application suites (needs the Firebase service account secret)
+        if: ${{ secrets.SERVICE_ACCOUNT }}
+        run: npm run ci
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+      - name: Build and smoke-test the Docker image
+        run: |
+          IMAGE="steel-yard-ledger:ci-${{ github.run_id }}"
+          docker build -t "$IMAGE" .
+          docker run -d --name syl-ci-smoke -e FIREBASE_SERVICE_ACCOUNT_JSON="${{ secrets.SERVICE_ACCOUNT }}" "$IMAGE"
+          ok=0
+          for i in $(seq 1 30); do
+            if docker exec syl-ci-smoke wget -qO- http://127.0.0.1:3000/api/health >/dev/null 2>&1; then ok=1; break; fi
+            sleep 1
+          done
+          [ "$ok" = "1" ] || { docker logs syl-ci-smoke; exit 1; }
+          docker stop syl-ci-smoke >/dev/null

@@ -1,0 +1,37 @@
+# Steel Yard Ledger — local Docker Compose (second-choice reference).
+#
+# Runs the app in Docker on port 3000 for local testing, or as the tunnel
+# origin for Cloudflare Tunnel / Fly.io. Firebase is required: set
+# FIREBASE_SERVICE_ACCOUNT_JSON in the environment, or put the key at
+# DATA_DIR/firebase-service-account.json. See .env.example for all knobs.
+
+version: "3.9"
+
+services:
+  app:
+    image: steel-yard-ledger
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATA_DIR=/data
+      - PORT=3000
+      - HOST=0.0.0.0
+      - TRUST_PROXY=true
+      - COOKIE_SECURE=true
+    volumes:
+      - steel-yard-ledger-data:/data
+    ports:
+      - "3000:3000"
+    healthcheck:
+      # Matches the app's health route: GET /api/health -> {"status":"ok",...}
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  steel-yard-ledger-data:

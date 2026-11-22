@@ -1,0 +1,128 @@
+{
+  "title": "Steel Yard Ledger",
+  "uid": "steel-yard-ledger",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "15s",
+  "time": { "from": "now-6h", "to": "now" },
+  "timezone": "browser",
+  "annotations": { "list": [] },
+  "templating": { "list": [] },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "App health (up)",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 5 },
+      "targets": [{ "expr": "steel_yard_ledger_up", "legendFormat": "up" }],
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "horizontal" },
+      "fieldConfig": { "defaults": { "unit": "none" }, "overrides": [] }
+    },
+    {
+      "type": "stat",
+      "title": "Uptime (s)",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 5 },
+      "targets": [{ "expr": "steel_yard_ledger_uptime_seconds", "legendFormat": "uptime" }],
+      "options": { "colorMode": "value", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] }
+    },
+    {
+      "type": "stat",
+      "title": "Users",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 5 },
+      "targets": [{ "expr": "steel_yard_ledger_users", "legendFormat": "users" }],
+      "fieldConfig": { "defaults": { "unit": "none" }, "overrides": [] }
+    },
+    {
+      "type": "stat",
+      "title": "Items (catalogue)",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 5 },
+      "targets": [{ "expr": "steel_yard_ledger_items", "legendFormat": "items" }],
+      "fieldConfig": { "defaults": { "unit": "none" }, "overrides": [] }
+    },
+    {
+      "type": "stat",
+      "title": "Customers",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 5 },
+      "targets": [{ "expr": "steel_yard_ledger_customers", "legendFormat": "customers" }],
+      "fieldConfig": { "defaults": { "unit": "none" }, "overrides": [] }
+    },
+    {
+      "type": "stat",
+      "title": "Security events",
+      "gridPos": { "x": 20, "y": 0, "w": 4, "h": 5 },
+      "targets": [{ "expr": "steel_yard_ledger_security_events", "legendFormat": "events" }],
+      "fieldConfig": { "defaults": { "unit": "none" }, "overrides": [] }
+    },
+    {
+      "type": "timeseries",
+      "title": "HTTP requests per second (app)",
+      "gridPos": { "x": 0, "y": 6, "w": 8, "h": 7 },
+      "targets": [
+        { "expr": "sum(rate(steel_yard_ledger_http_requests_total[5m]))", "legendFormat": "requests/sec" }
+      ],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Server errors per second (app, >=500)",
+      "gridPos": { "x": 8, "y": 6, "w": 8, "h": 7 },
+      "targets": [
+        { "expr": "sum(rate(steel_yard_ledger_http_server_errors_total[5m]))", "legendFormat": "errors/sec" }
+      ],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "p95 / p50 request latency (app)",
+      "gridPos": { "x": 16, "y": 6, "w": 8, "h": 7 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(steel_yard_ledger_http_request_duration_seconds_bucket[5m])))", "legendFormat": "p95", "yaxis": 1 },
+        { "expr": "histogram_quantile(0.5, sum by (le) (rate(steel_yard_ledger_http_request_duration_seconds_bucket[5m])))", "legendFormat": "p50", "yaxis": 2 }
+      ],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU usage (node-exporter)",
+      "gridPos": { "x": 0, "y": 13, "w": 8, "h": 7 },
+      "targets": [{ "expr": "1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[5m]))", "legendFormat": "cpu" }],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory usage (node-exporter)",
+      "gridPos": { "x": 8, "y": 13, "w": 8, "h": 7 },
+      "targets": [
+        { "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes", "legendFormat": "used" },
+        { "expr": "node_memory_MemAvailable_bytes", "legendFormat": "available" }
+      ],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Disk usage (node-exporter)",
+      "gridPos": { "x": 16, "y": 13, "w": 8, "h": 7 },
+      "targets": [
+        { "expr": "node_filesystem_size_bytes{mountpoint=\"/\"} - node_filesystem_avail_bytes{mountpoint=\"/\"}", "legendFormat": "used" }
+      ],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Network I/O (node-exporter)",
+      "gridPos": { "x": 0, "y": 20, "w": 8, "h": 7 },
+      "targets": [
+        { "expr": "sum(rate(node_network_receive_bytes_total[5m]))", "legendFormat": "rx" },
+        { "expr": "sum(rate(node_network_transmit_bytes_total[5m]))", "legendFormat": "tx" }
+      ],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Prometheus scrape status",
+      "gridPos": { "x": 8, "y": 20, "w": 8, "h": 7 },
+      "targets": [{ "expr": "up", "legendFormat": "{{ job }}" }],
+      "options": { "showPoints": "never", "tooltip": { "mode": "multi", "sort": "desc" } }
+    }
+  ]
+}

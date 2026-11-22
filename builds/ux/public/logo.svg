@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 96" role="img" aria-label="Steel Yard Ledger">
+  <!-- Steel Yard Ledger — full logo lockup -->
+  <circle cx="48" cy="48" r="44" fill="#202325"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="#ffd84d" stroke-width="5"/>
+  <!-- peak -->
+  <path d="M26.5 61 48 24l21.5 37" fill="none" stroke="#f4f5f7" stroke-width="5.5" stroke-linejoin="round"/>
+  <path d="M42.4 61 48 46.5 53.6 61Z" fill="#ffd84d"/>
+  <!-- steel ingot -->
+  <path d="M24.5 68h47l-3.7 9.5H28.2Z" fill="#ffd84d"/>
+  <path d="M24.5 68h47l-.9 2.2H25.4Z" fill="#1c1e20" opacity="0.25"/>
+  <!-- bolt stud -->
+  <circle cx="48" cy="82.6" r="3.2" fill="#f4f5f7"/>
+  <g font-family="'Archivo Black','Arial Black',sans-serif" fill="#1c1e20">
+    <text x="104" y="46" font-size="26" letter-spacing="1">STEEL YARD</text>
+    <text x="104" y="76" font-size="26" letter-spacing="6.5" fill="#5a6065">LEDGER</text>
+    <rect x="104" y="55" width="222" height="3" fill="#ffd84d"/>
+  </g>
+</svg>

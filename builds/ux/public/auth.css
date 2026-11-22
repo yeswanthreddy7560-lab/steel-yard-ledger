@@ -1,0 +1,882 @@
+/* ====================================================================
+   Steel Yard Ledger — Modern Ledger Build (UX/Design Visionary pass)
+
+   Auth pages (login / verify / register / forgot / reset) and the
+   administrator console, re-paletted for the new system. Strong
+   contrast, dark/light support, mobile-first, print styles.
+   Class names used by auth.js / admin.js are preserved.
+   ==================================================================== */
+
+/* ---------------------------------------------------------------- */
+/* Body + auth page layout                                          */
+/* ---------------------------------------------------------------- */
+
+body.auth-page {
+  min-height: 100vh;
+  display: flex;
+  background: var(--bg);
+}
+
+/* ---------------------------------------------------------------- */
+/* Brand panel — dark steel plate with accent marks (high visibility)*/
+/* ---------------------------------------------------------------- */
+
+.auth-brand-panel {
+  position: relative;
+  flex: 1 1 44%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 34px 38px;
+  background: var(--plate);
+  color: var(--plate-ink);
+}
+
+.auth-brand-panel::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 7px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent) 0 16px,
+    var(--plate-ink-dim) 16px 32px
+  );
+}
+
+.auth-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--plate-ink-dim);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.auth-brand-mark svg {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 8px rgba(255, 216, 77, 0.5));
+}
+
+.auth-brand {
+  margin: auto 0;
+  padding: 40px 0;
+}
+
+.auth-brand h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--plate-ink);
+}
+
+.auth-brand .accent {
+  color: var(--accent);
+}
+
+.auth-brand p {
+  margin: 16px 0 0;
+  max-width: 30ch;
+  color: var(--plate-ink-dim);
+  font-size: 0.94rem;
+}
+
+.auth-brand-foot {
+  color: var(--plate-ink-dim);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- */
+/* Auth shell + card                                                */
+/* ---------------------------------------------------------------- */
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  flex: 1 1 56%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.auth-card h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.auth-card .auth-subtitle {
+  margin: 0 0 22px;
+  color: var(--steel);
+  font-size: 0.92rem;
+}
+
+.auth-card form {
+  display: grid;
+  gap: 14px;
+}
+
+.auth-card label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+
+.auth-card input:hover {
+  border-color: var(--steel);
+}
+
+.auth-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+  outline: none;
+}
+
+/* Password field with inline eye show/hide toggle */
+
+.password-wrap {
+  position: relative;
+  display: block;
+}
+
+.password-wrap input {
+  padding-right: 46px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--steel);
+  line-height: 0;
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  color: var(--ink);
+  background: var(--bg-2);
+}
+
+.password-toggle[aria-pressed="true"] {
+  color: var(--accent);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.eye-icon {
+  display: block;
+}
+
+.eye-icon[hidden] {
+  display: none;
+}
+
+/* Remember me */
+
+.auth-card .remember-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.remember-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 14px 16px;
+  border-color: var(--accent);
+}
+
+/* Secondary actions inside the recovery flow (resend / change email). */
+
+.auth-link-button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.auth-link-button:hover {
+  text-decoration: none;
+}
+
+.auth-link-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.auth-link-button:disabled {
+  color: var(--steel);
+  opacity: 0.7;
+  cursor: default;
+  text-decoration: none;
+}
+
+.otp-input {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.34em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.auth-error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--oxide);
+  border-left: 5px solid var(--oxide);
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+  font-size: 0.86rem;
+}
+
+.auth-success {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--ok-ink);
+  border-left: 5px solid var(--ok-ink);
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+  font-size: 0.86rem;
+}
+
+.auth-links {
+  margin: 22px 0 0;
+  color: var(--steel);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.auth-links a {
+  color: var(--accent);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.auth-links a:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.auth-note {
+  margin: 10px 0 0;
+  color: var(--steel);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.password-rules {
+  margin: 0 0 2px;
+  padding-left: 20px;
+  color: var(--steel);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- */
+/* Mobile layout — stacked plate above form                         */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 880px) {
+  body.auth-page {
+    flex-direction: column;
+  }
+
+  .auth-brand-panel {
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 26px 22px 34px;
+  }
+
+  .auth-brand {
+    margin: 20px 0;
+    padding: 0;
+  }
+
+  .auth-brand h1 {
+    font-size: 2.6rem;
+  }
+
+  .auth-brand p {
+    margin-top: 10px;
+  }
+
+  .auth-brand-foot {
+    display: none;
+  }
+
+  .auth-shell {
+    min-height: 0;
+    padding: 26px 20px 44px;
+  }
+
+  .auth-card {
+    padding: 24px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Admin console                                                    */
+/* ---------------------------------------------------------------- */
+
+body.admin-body {
+  background: var(--bg);
+}
+
+.admin-header {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px 28px;
+  color: var(--ink);
+}
+
+.admin-header .session-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 18px;
+}
+
+.admin-header-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.admin-header .accent {
+  color: var(--accent);
+}
+
+.admin-header p {
+  margin: 10px 0 0;
+  color: var(--steel);
+  font-size: 0.94rem;
+}
+
+.admin-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  display: grid;
+  gap: 26px;
+}
+
+.admin-page > * {
+  min-width: 0;
+}
+
+.admin-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.summary-card {
+  display: grid;
+  gap: 4px;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: var(--radius);
+}
+
+.summary-card:hover {
+  border-color: var(--ink);
+}
+
+.summary-value {
+  font-family: var(--display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-label {
+  color: var(--steel);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-panel {
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: var(--radius);
+}
+
+.admin-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.admin-panel-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.admin-panel-head p {
+  margin: 4px 0 0;
+  color: var(--steel);
+  font-size: 0.82rem;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+  background: var(--card);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-table th {
+  border-bottom: 1px solid var(--line);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--card);
+  border-top: 2px solid var(--line);
+}
+
+.admin-table th:first-child {
+  border-left-width: 0;
+}
+
+.admin-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  border-top: 2px solid var(--line);
+}
+
+.admin-table tbody tr:hover {
+  background: var(--bg-2);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-table .cell-wrap {
+  white-space: normal;
+  min-width: 220px;
+}
+
+/* Ledger timestamps in mono — scoped per table body */
+
+#users-body td:nth-child(4),
+#users-body td:nth-child(5),
+#events-body td:nth-child(1),
+#events-body td:nth-child(4) {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.admin-table td:first-child strong {
+  font-weight: 600;
+}
+
+/* Status tags — squared, like stencil tags, high contrast */
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 2px solid currentcolor;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 6px;
+}
+
+.badge-admin {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.badge-active {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+.badge-pending {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.badge-rejected {
+  color: var(--oxide-ink);
+  background: var(--oxide-bg);
+}
+
+.badge-revoked {
+  color: var(--steel);
+  background: var(--bg-2);
+}
+
+/* Flag beside a username when an unauthenticated visitor has asked for a
+   password reset. The administrator issues the link from the actions column. */
+
+.reset-request {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.user-email {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: var(--steel);
+}
+
+.row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.row-actions > span {
+  color: var(--steel);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.mini-button {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.mini-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.mini-button.approve {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.mini-button.approve:hover {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.mini-button.reject {
+  border-color: var(--oxide);
+  color: var(--oxide-ink);
+}
+
+.mini-button.reject:hover {
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+}
+
+.mini-button.revoke {
+  border-color: var(--steel);
+  color: var(--steel);
+}
+
+.mini-button.delete {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mini-button.delete:hover {
+  border-color: var(--oxide);
+  color: var(--oxide-ink);
+  background: var(--oxide-bg);
+}
+
+.mini-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.mini-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.event-type {
+  display: inline-block;
+  padding: 3px 9px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.event-type.danger {
+  border-color: var(--oxide);
+  background: var(--oxide-bg);
+  color: var(--oxide-ink);
+}
+
+.event-type.success {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.empty-cell {
+  color: var(--steel);
+  font-size: 0.9rem;
+  padding: 26px 16px;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- */
+/* Mobile layout                                                    */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  .admin-page {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .admin-header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .admin-header h1 {
+    font-size: 2rem;
+  }
+
+  .summary-card {
+    padding: 12px 14px;
+  }
+
+  .summary-card .summary-value {
+    font-size: 1.8rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .mini-button {
+    padding: 5px 9px;
+    font-size: 0.72rem;
+  }
+
+  .row-actions {
+    gap: 4px;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* Print                                                            */
+/* ---------------------------------------------------------------- */
+
+@media print {
+  .session-bar,
+  .toolbar,
+  .category-nav,
+  .status-banner,
+  .admin-header .session-bar,
+  .row-actions,
+  .mini-button,
+  .theme-toggle {
+    display: none;
+  }
+
+  body,
+  .admin-panel,
+  .summary-card {
+    background: #fff;
+    color: #000;
+  }
+
+  .admin-panel,
+  .summary-card {
+    border-color: #000;
+  }
+
+  .auth-brand-panel {
+    display: none;
+  }
+
+  .auth-shell,
+  .auth-card {
+    display: block !important;
+  }
+
+  .auth-card {
+    border-color: #000;
+    max-width: none;
+  }
+
+  .auth-card h2,
+  .auth-brand,
+  .auth-card input,
+  .password-toggle,
+  .auth-links,
+  .auth-note {
+    color: #000;
+  }
+
+  .auth-card input {
+    border-color: #000;
+  }
+
+  .admin-header h1 {
+    color: #000;
+  }
+
+  .summary-card .summary-value {
+    color: #000;
+  }
+}
+
+/* Ownership notice (injected by auth.js on login/verify/register) */
+
+.ownership-line {
+  max-width: 420px;
+  margin: 18px auto 0;
+  text-align: center;
+  color: var(--steel);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+}

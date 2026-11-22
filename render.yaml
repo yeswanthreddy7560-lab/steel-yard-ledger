@@ -1,0 +1,54 @@
+# Render Blueprint — Steel Yard Ledger (second-choice reference, see docs/PERMANENT-URL-COMPARISON.md)
+#
+# Deploy with: Render Dashboard -> New -> Blueprint -> point at this repo,
+# or use this file as a template for a manual "Docker" web service.
+#
+# Secrets are declared with sync: false — Render asks you to fill them in
+# (or leaves them unset) and never stores them in this file.
+
+services:
+  - type: web
+    name: steel-yard-ledger
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # --- Platform wiring (keep as-is) -------------------------------
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: "3000"
+      - key: DATA_DIR
+        value: /data
+      - key: NODE_ENV
+        value: production
+      # TLS terminates at Render's edge: the app must trust its proxy and
+      # mark cookies secure.
+      - key: TRUST_PROXY
+        value: "true"
+      - key: COOKIE_SECURE
+        value: "true"
+      # --- Hardening knobs (defaults are sane) ------------------------
+      - key: API_RATE_LIMIT
+        value: "600"
+      - key: REGISTER_RATE_LIMIT
+        value: "5"
+      - key: LOGIN_RATE_LIMIT
+        value: "10"
+      - key: REGISTRATION_ENABLED
+        value: "true"       # set "false" once your team's accounts exist
+      # --- Secrets (fill these in the Render dashboard) ---------------
+      # Full Firebase service-account JSON (single line). Firestore is the
+      # only database; no disk is required.
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false
+      # 32+ random characters; keeps sessions valid across redeploys.
+      - key: SESSION_SECRET
+        sync: false
+      # Strong generated admin password; the app forces a change at first
+      # sign-in. Leave unset to have the server print one on first boot.
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false

@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /catalogue
+Disallow: /customers
+Disallow: /orders
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /api/
+
+Sitemap: https://saihardwareitems.com/sitemap.xml

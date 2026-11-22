@@ -1,0 +1,17 @@
+# Steel Yard Ledger — Alertmanager routing.
+#
+# Replace the placeholder webhook URL with your real receiver (Slack incoming
+# webhook, PagerDuty integration URL, Opsgenie, ...). Prometheus alert rules
+# (monitoring/prometheus/alerts.yml) feed these route into the webhook.
+route:
+  receiver: webhook-notify
+  group_by: ["alertname", "severity", "component"]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 24h
+
+receivers:
+  - name: webhook-notify
+    webhook_configs:
+      - url: "https://hooks.slack.com/services/YOUR/WEBHOOK/HERE"
+        max_alerts: 10

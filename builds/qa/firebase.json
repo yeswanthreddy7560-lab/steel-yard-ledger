@@ -1,0 +1,65 @@
+{
+  "functions": {
+    "source": ".",
+    "runtime": "nodejs22",
+    "ignore": [
+      "**/.*",
+      "node_modules/**",
+      "data/**",
+      "docs/**",
+      "scripts/**",
+      "legacy/**",
+      "*.md",
+      "*.log",
+      "firebase.json",
+      ".firebaserc",
+      "firestore.rules",
+      "Dockerfile",
+      "render.yaml",
+      "material_hardware_master_table.txt"
+    ]
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": {
+          "functionId": "api",
+          "region": "asia-south1"
+        }
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=15552000; includeSubDomains"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "no-referrer"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(), payment=()"
+          }
+        ]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

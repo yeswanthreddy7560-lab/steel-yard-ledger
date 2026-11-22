@@ -1,0 +1,42 @@
+# Steel Yard Ledger — Prometheus alert rules.
+groups:
+  - name: steel-yard-ledger
+    interval: 30s
+    rules:
+      - alert: SteelYardLedgerDown
+        expr: up{job="steel-yard-ledger-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: app
+        annotations:
+          summary: "Steel Yard Ledger is down"
+          description: "The app health endpoint at {{ $labels.instance }} has not responded for over a minute."
+
+      - alert: SteelYardLedgerHighErrorRate
+        expr: rate(steel_yard_ledger_http_server_errors_total[5m]) > 0.02
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Steel Yard Ledger is returning server errors"
+          description: "App server-error rate is {{ $value | humanize }} errors/sec on {{ $labels.instance }}."
+
+      - alert: SteelYardLedgerHighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(steel_yard_ledger_http_request_duration_seconds_bucket[5m]))) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Steel Yard Ledger p95 response time is high"
+          description: "p95 latency is {{ $value }}s on {{ $labels.instance }}."
+
+      - alert: SteelYardLedgerLowDisk
+        expr: node_filesystem_avail_bytes{mountpoint="/"} < node_filesystem_size_bytes{mountpoint="/"} * 0.1
+        for: 10m
+        labels:
+          severity: critical
+          component: node
+        annotations:
+          summary: "Host disk space is running low"
+          description: "Available space on the node's root filesystem is below 10%."

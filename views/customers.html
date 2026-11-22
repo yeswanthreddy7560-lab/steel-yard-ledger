@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Customer register with automatic one-month expiry tracking." />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Customers · Steel Yard Ledger — Alpha</title>
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/auth.css" />
+    <link rel="stylesheet" href="/customers.css?v=2" />
+  </head>
+  <body class="requires-session">
+    <header class="site-header">
+      <div class="session-bar">
+        <span class="session-user">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="user-label">Signed in</span>
+          <span class="session-role" id="user-role" hidden></span>
+        </span>
+        <span class="session-actions">
+          <a class="session-link" href="/">Home</a>
+          <a class="session-link" href="/customers" aria-current="page">Customers</a>
+          <a class="session-link" id="orders-link" href="/orders" hidden>Orders</a>
+          <a class="session-link" id="admin-link" href="/admin" hidden>Admin</a>
+          <button type="button" class="session-link" id="change-password-button" hidden>Change password</button>
+          <button type="button" class="session-link" id="logout-button">Sign out</button>
+        </span>
+      </div>
+
+      <div class="header-inner">
+        <div class="header-copy">
+          <p class="brand-mark">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <circle cx="32" cy="32" r="30" fill="#202325"/>
+              <circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/>
+              <path d="M17.5 39.5 32 15l14.5 24.5" fill="none" stroke="#fdfdfc" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M27.2 39.5 32 30l4.8 9.5Z" fill="#ffc400"/>
+              <path d="M15.5 44.5h33l-2.6 6.5H18.1Z" fill="#ffc400"/>
+              <circle cx="32" cy="54.4" r="2.2" fill="#fdfdfc"/>
+            </svg>
+            Steel Yard Ledger — Alpha
+          </p>
+          <h1>Customer<br /><span class="thin">register</span></h1>
+          <p class="subtitle">Your customer ledger. Every record expires one calendar month from its own date — statuses update themselves.</p>
+        </div>
+
+        <div class="stats" aria-label="Register summary">
+          <div class="stat">
+            <span class="stat-value" id="stat-total">—</span>
+            <span class="stat-label">Records</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-expired">—</span>
+            <span class="stat-label">Expired</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <!-- Dashboard summary cards -->
+      <section class="cust-cards" aria-label="Register status summary">
+        <div class="cust-card cust-card--total">
+          <span class="cust-card-value" id="card-total">—</span>
+          <span class="cust-card-label">Total records</span>
+        </div>
+        <div class="cust-card cust-card--active">
+          <span class="cust-card-value" id="card-active">—</span>
+          <span class="cust-card-label">Active</span>
+        </div>
+        <div class="cust-card cust-card--soon">
+          <span class="cust-card-value" id="card-soon">—</span>
+          <span class="cust-card-label">Expiring soon</span>
+        </div>
+        <div class="cust-card cust-card--expired">
+          <span class="cust-card-value" id="card-expired">—</span>
+          <span class="cust-card-label">Expired</span>
+        </div>
+      </section>
+
+      <!-- Search / filter / add -->
+      <section class="toolbar cust-toolbar" aria-label="Search, filter, and add customers">
+        <div class="search-wrap">
+          <svg
+            class="search-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search name, phone, bill no, village, or book no…"
+            autocomplete="off"
+            aria-label="Search customers"
+          />
+        </div>
+
+        <label class="book-select">
+          <span>Bill book</span>
+          <select id="book-select" aria-label="Select bill book">
+            <option value="all">All books</option>
+          </select>
+        </label>
+
+        <button type="button" class="secondary-button" id="filter-toggle" aria-expanded="false" aria-controls="filter-panel">
+          Filter
+        </button>
+
+        <p class="result-count" id="result-count" aria-live="polite">Loading records…</p>
+
+        <button type="button" class="primary-button" id="add-customer-button">+ Add customer</button>
+      </section>
+
+      <div class="filter-panel" id="filter-panel" hidden>
+        <label>Status
+          <select id="filter-status">
+            <option value="all">All records</option>
+            <option value="active">Active</option>
+            <option value="expiring_soon">Expiring soon</option>
+            <option value="expired">Expired</option>
+          </select>
+        </label>
+        <label>From date
+          <input type="date" id="filter-from" />
+        </label>
+        <label>To date
+          <input type="date" id="filter-to" />
+        </label>
+        <button type="button" class="clear-button" id="filter-reset">Reset filters</button>
+      </div>
+
+      <div class="status-banner" id="status-banner" role="status" hidden></div>
+
+      <!-- Customer details table -->
+      <section class="ledger-card">
+        <div class="ledger-scroll">
+          <table class="ledger-table">
+            <thead>
+              <tr>
+                <th class="col-sno">S.No</th>
+                <th>Name</th><th>Health</th>
+                <th class="col-num">Amount</th>
+                <th>Bill.No</th>
+                <th>Date</th>
+                <th>Village</th>
+                <th>Book no</th>
+                <th>Phone.No</th>
+                <th>Expiry date</th>
+                <th>Status</th>
+                <th class="col-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ledger-body"></tbody>
+          </table>
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <h2>No records here</h2>
+          <p id="empty-message">No customer records match the current search or filter.</p>
+          <button type="button" class="primary-button" id="empty-add-button">+ Add your first customer</button>
+        </div>
+
+        <div class="ledger-footer">
+          <span class="ledger-pageinfo" id="page-info" aria-live="polite"></span>
+          <span class="ledger-pager">
+            <button type="button" class="secondary-button" id="page-prev" disabled>‹ Prev</button>
+            <button type="button" class="secondary-button" id="page-next" disabled>Next ›</button>
+          </span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Add / Edit customer dialog -->
+    <dialog class="item-dialog" id="customer-dialog" aria-labelledby="customer-dialog-title">
+      <form id="customer-form" class="item-form" novalidate>
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow dialog-eyebrow" id="customer-dialog-eyebrow">Customer register</p>
+            <h2 id="customer-dialog-title">Add customer</h2>
+          </div>
+          <button type="button" class="icon-button" id="close-customer-dialog" aria-label="Close">×</button>
+        </div>
+
+        <label>Customer name
+          <input id="customer-name" type="text" maxlength="100" required placeholder="Full name" />
+        </label>
+
+        <div class="form-grid">
+          <label>Amount (₹)
+            <input id="customer-amount" type="number" min="0" step="0.01" required placeholder="e.g. 5000" />
+          </label>
+          <label>Bill no
+            <input id="customer-billno" type="text" maxlength="32" required placeholder="e.g. 1042/A" />
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <label>Date
+            <input id="customer-date" type="date" required />
+          </label>
+          <label>Village
+            <input id="customer-village" type="text" maxlength="100" placeholder="Village or town" />
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <label>Book no
+            <input id="customer-bookno" type="text" maxlength="100" placeholder="Ledger book number" />
+          </label>
+          <label>Phone no
+            <input id="customer-phone" type="tel" inputmode="numeric" maxlength="15" required placeholder="10-digit mobile" />
+          </label>
+        </div>
+
+        <p class="form-hint" id="expiry-hint">Expiry date is set automatically: one calendar month after the date above.</p>
+        <p class="form-error" id="customer-form-error" role="alert" hidden></p>
+
+        <div class="dialog-actions">
+          <button type="button" class="secondary-button" id="cancel-customer-dialog">Cancel</button>
+          <button type="submit" class="primary-button" id="save-customer-button">Save customer</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Delete confirmation dialog -->
+    <dialog class="item-dialog cust-confirm" id="delete-dialog" aria-labelledby="delete-dialog-title">
+      <form id="delete-form" class="item-form" method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow dialog-eyebrow">Permanently delete</p>
+            <h2 id="delete-dialog-title">Delete record?</h2>
+          </div>
+          <button type="button" class="icon-button" id="close-delete-dialog" aria-label="Close">×</button>
+        </div>
+        <p class="cust-confirm-copy" id="delete-copy">
+          Are you sure you want to permanently delete this expired customer record?
+        </p>
+        <p class="form-error" id="delete-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary-button" id="cancel-delete-button">Cancel</button>
+          <button type="submit" class="danger-button" id="confirm-delete-button">Confirm delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <footer class="site-footer">
+      <p>Statuses are recalculated from the record's own date on every load — no manual updates needed.</p>
+      <p>Each record expires one calendar month after its date. Month-end dates expire on the last day of the target month.</p>
+    </footer>
+
+    <script src="/session-ui.js?v=5"></script>
+    <script src="/customers.js?v=2"></script>
+  </body>
+</html>

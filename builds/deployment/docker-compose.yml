@@ -1,0 +1,134 @@
+# Steel Yard Ledger — production deployment (docker-compose.yml).
+#
+# Services:
+#   traefik       Edge proxy with health-aware routing (community edition).
+#   app           The app (catalogue, customers, admin, auth, landing); the
+#                 only public port (via Traefik, :80).
+#   node-exporter Host metrics for the monitoring stack.
+#
+# Monitoring stack (optional, profile "monitoring"):
+#   prometheus, grafana, alertmanager
+#
+# Start:  docker compose up --build --wait
+# Monitor: docker compose up --profile monitoring --wait
+# Deploy:  make deploy   (blue/green handoff — see scripts/deploy.sh)
+
+name: steel-yard-ledger
+
+services:
+  traefik:
+    image: traefik:v3.2
+    container_name: steel-yard-ledger-traefik
+    command:
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--log.level=warn"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: unless-stopped
+
+  app:
+    image: steel-yard-ledger:app
+    container_name: steel-yard-ledger-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+      - NODE_ENV=production
+      - DATA_DIR=/data
+      - TRUST_PROXY=true
+      - COOKIE_SECURE=true
+      - APP_ORIGIN=${APP_ORIGIN:-}
+      - CANONICAL_HOST=${CANONICAL_HOST:-}
+      - CANONICAL_ORIGIN=${CANONICAL_ORIGIN:-}
+    volumes:
+      - "steel-yard-ledger-data:/data"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=PathPrefix(`/`)"
+
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: steel-yard-ledger-node-exporter
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9100/metrics"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  prometheus:
+    image: prom/prometheus:v2.53.5
+    container_name: steel-yard-ledger-prometheus
+    profiles: ["monitoring"]
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.listen-address=:9090"
+      - "--storage.tsdb.retention.time=15d"
+    ports:
+      - "9090:9090"
+    volumes:
+      - "steel-yard-ledger-prometheus-data:/prometheus"
+      - "./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
+      - "./monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9090/-/ready"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: steel-yard-ledger-grafana
+    profiles: ["monitoring"]
+    environment:
+      - "GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER:-admin}"
+      - "GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-steel-yard-ledger-admin}"
+      - "GF_PATHS_PROVISIONING=/etc/grafana/provisioning"
+    ports:
+      - "3010:3000"
+    volumes:
+      - "steel-yard-ledger-grafana-data:/var/lib/grafana"
+      - "./monitoring/grafana/dashboards/steel-yard-ledger.json:/etc/grafana/dashboards/steel-yard-ledger.json"
+      - "./monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: steel-yard-ledger-alertmanager
+    profiles: ["monitoring"]
+    command: "--config.file=/etc/alertmanager/alertmanager.yml"
+    ports:
+      - "9093:9093"
+    volumes:
+      - "./monitoring/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9093/-/healthy"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  steel-yard-ledger-data:
+  steel-yard-ledger-prometheus-data:
+  steel-yard-ledger-grafana-data:
