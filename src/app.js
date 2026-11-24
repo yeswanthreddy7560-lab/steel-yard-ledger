@@ -43,6 +43,12 @@ function createApp() {
         "SMTP_USER, SMTP_PASS and MAIL_FROM; self-service codes will fail until then."
     );
   }
+  if (/ethereal/i.test(process.env.SMTP_HOST || "")) {
+    console.warn(
+      "Password-recovery email is using a test inbox. Codes are captured by " +
+        "the SMTP provider, not delivered to the recipient's mailbox."
+    );
+  }
 
   app.disable("x-powered-by");
   if (config.trustProxy) app.set("trust proxy", 1);

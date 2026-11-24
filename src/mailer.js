@@ -98,32 +98,32 @@ async function deliver({ to, subject, text, html }) {
 
 function otpMessage(code, expiresMinutes) {
   const text = [
-    "Sai Hardware Items — password recovery",
+    "Steel Yard Ledger — Alpha — password recovery",
     "",
     `Your verification code is: ${code}`,
     "",
     `The code expires in ${expiresMinutes} minutes and can be used once.`,
     "If you did not request a password reset, you can ignore this email.",
     "",
-    "Sri Sai Web"
+    "Steel Yard Ledger — Alpha"
   ].join("\n");
 
   const html = `<!DOCTYPE html>
 <html lang="en">
   <body style="margin:0;padding:24px;background:#f4f4f2;font-family:Arial,Helvetica,sans-serif;color:#202325;">
     <div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #e2e2de;border-radius:12px;padding:32px;">
-      <p style="margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8a6d00;">Sai Hardware Items</p>
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8a6d00;">Steel Yard Ledger — Alpha</p>
       <h1 style="margin:0 0 16px;font-size:22px;">Password recovery code</h1>
       <p style="margin:0 0 20px;line-height:1.6;">Enter this code on the password recovery page:</p>
       <p style="margin:0 0 20px;font-size:34px;font-weight:700;letter-spacing:.28em;color:#202325;background:#fff8dd;border:1px solid #ffd45e;border-radius:8px;padding:14px 18px;text-align:center;">${code}</p>
       <p style="margin:0 0 8px;line-height:1.6;">The code expires in <strong>${expiresMinutes} minutes</strong> and works once.</p>
-      <p style="margin:0;line-height:1.6;color:#5f625f;font-size:13px;">If you did not request a password reset, you can ignore this email — your password has not changed.</p>
-      <p style="margin:24px 0 0;padding-top:16px;border-top:1px solid #ecece8;font-size:12px;color:#8a8d8a;">Sri Sai Web · Sai Hardware Items</p>
+      <p style="margin:0;line-height:1.6;color:#5f625f;font-size:13px;">If you did not request this, you can ignore this email — your password has not changed.</p>
+      <p style="margin:24px 0 0;padding-top:16px;border-top:1px solid #ecece8;font-size:12px;color:#8a8d8a;">Steel Yard Ledger — Alpha</p>
     </div>
   </body>
 </html>`;
 
-  return { subject: "Your Sai Hardware Items verification code", text, html };
+  return { subject: "Your Steel Yard Ledger verification code", text, html };
 }
 
 async function sendPasswordResetCode({ to, code, expiresMinutes }) {

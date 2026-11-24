@@ -118,6 +118,39 @@ authentication.
 served at `https://steel-yard-ledger.fly.dev/google<...>.html`. Commit it if you
 want verification to survive future deploys.
 
+## 5b. Password recovery email
+
+The app emails a 6-digit code for `/forgot-password`. Delivery uses these Fly
+secrets:
+
+```
+SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, MAIL_FROM
+```
+
+`MAIL_FROM` defaults to `SMTP_USER`. If delivery fails, the code is cleared and
+a `password_reset_email_failed` alert appears in the admin console — the
+response to the user stays generic.
+
+The current deployment uses a no-signup Ethereal test inbox. **Codes are
+captured there and are not delivered to the recipient's Gmail.** View them by
+signing in at <https://ethereal.email> with the `SMTP_USER` / `SMTP_PASS`
+values stored in Fly secrets.
+
+To deliver codes to a real mailbox, replace the SMTP secrets with a Gmail app
+password (Google Account → Security → App passwords):
+
+```powershell
+flyctl secrets set --app steel-yard-ledger `
+  SMTP_HOST=smtp.gmail.com SMTP_PORT=587 SMTP_SECURE=false `
+  SMTP_USER=you@gmail.com SMTP_PASS="<16-char app password>" `
+  MAIL_FROM=you@gmail.com
+flyctl deploy --app steel-yard-ledger
+```
+
+The admin account must also have a recovery email attached; an administrator
+can set it from **Admin → Users → Edit email**, or the CLI:
+`npm run set-email -- admin you@gmail.com`.
+
 ## 6. Redeploying
 
 ```powershell
