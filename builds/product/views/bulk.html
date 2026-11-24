@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Steel Yard Ledger — bulk operations: apply changes to many items at once." />
+    <title>Bulk Operations — Steel Yard Ledger</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      #app { max-width: 1100px; margin: 0 auto; padding: 0 1rem 2rem; }
+      .page-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+      .page-head h1 { margin: 0; font-size: 2rem; }
+      .section { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+      .section-heading { display: flex; align-items: baseline; gap: 0.75rem; }
+      .section-subtitle { color: #555; font-size: 0.85rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+      th, td { text-align: left; padding: 0.4rem 0.4rem; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+      th { color: #555; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      input[type="checkbox"] { margin-right: 0.5rem; }
+      input[type="number"], input[type="text"], textarea, select { width: 100%; padding: 0.35rem 0.5rem; border: 1px solid rgba(0,0,0,0.15); border-radius: 6px; box-sizing: border-box; font: inherit; }
+      label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: #555; }
+      .results tr.fail { color: #b00020; }
+      .muted { color: #777; }
+      .empty { color: #777; font-style: italic; padding: 0.75rem 0; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+      .form-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+      .form-row > * { flex: 1; }
+    </style>
+  </head>
+  <body class="requires-session">
+    <header class="site-header">
+      <div class="session-bar">
+        <span class="session-user"><span class="session-dot" aria-hidden="true"></span><span id="user-label">Signed in</span></span>
+        <span class="session-actions">
+          <a class="session-link" href="/catalogue">Materials</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" href="/analytics">Analytics</a>
+          <a class="session-link" href="/vendors">Vendors</a>
+          <a class="session-link" href="/bulk">Bulk</a>
+          <a class="session-link" href="/team">Team</a>
+          <a class="session-link" href="/alerts">Alerts</a>
+          <a class="session-link" href="/">Home</a>
+        </span>
+      </div>
+      <div class="header-inner">
+        <div class="header-copy">
+          <p class="brand-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#202325"/><circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/></svg>Steel Yard Ledger</p>
+          <h1>Bulk Operations</h1>
+          <p class="subtitle">Apply price, stock and notes changes to many items in one shot, delete items, or record many sales at once. Per-row results tell you what worked.</p>
+        </div>
+      </div>
+    </header>
+
+    <main id="app">
+      <section class="section">
+        <div class="section-heading"><h2>Items</h2><span class="section-subtitle" id="items-count"></span></div>
+        <div class="empty" id="items-empty" hidden>No items in the catalogue.</div>
+        <table id="items-table"><thead><tr>
+          <th style="width: 1%;"></th><th>Product</th><th>Size</th><th>Unit</th>
+          <th style="text-align:right">Price</th><th style="text-align:right">Stock</th><th style="text-align:right">Reorder</th>
+          <th>Supplier</th><th style="text-align:right">Recorded sale</th>
+        </tr></thead><tbody id="items-body"></tbody></table>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><h2>Apply to selected items</h2></div>
+        <form id="bulk-apply" class="form-row">
+          <label>Price (₹)<input id="apply-price" type="number" min="0" step="0.01"></label>
+          <label>Stock qty<input id="apply-stock" type="number" min="0"></label>
+          <label>Reorder at<input id="apply-reorder" type="number" min="0"></label>
+          <label>Notes (overrides item notes)<input id="apply-notes" type="text"></label>
+          <button type="submit" class="primary-button">Apply to selected</button>
+        </form>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><h2>Delete selected items</h2><span class="section-subtitle">Permanent.</span></div>
+        <form id="bulk-delete">
+          <button type="submit" class="danger-button">Delete selected items</button>
+        </form>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><h2>Record sales (many at once)</h2><span class="section-subtitle">Sales feed analytics and stock counts.</span></div>
+        <form id="bulk-sales">
+          <button type="submit" class="primary-button">Record sales</button>
+        </form>
+      </section>
+
+      <section class="section" id="results-section" hidden>
+        <div class="section-heading"><h2>Results</h2></div>
+        <table class="results"><thead><tr><th>Item</th><th>Status</th><th>Error</th><th>Recorded</th></tr></thead>
+          <tbody id="results-body"></tbody></table>
+      </section>
+    </main>
+
+    <datalist id="categories-datalist"></datalist>
+    <script src="/public/bulk.js"></script>
+  </body>
+</html>

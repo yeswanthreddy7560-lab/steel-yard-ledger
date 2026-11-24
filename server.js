@@ -20,7 +20,7 @@ const PORT = Number.parseInt(process.env.PORT || "3000", 10);
 const HOST = process.env.HOST || "127.0.0.1";
 
 function announce(scheme, bootInfo) {
-  console.log(`Sai Hardware Items v${require("./package.json").version}`);
+  console.log(`Steel Yard Ledger — Alpha v${require("./package.json").version}`);
   console.log(`Listening on ${scheme}://${HOST === "0.0.0.0" ? "localhost" : HOST}:${PORT}`);
   console.log(
     `Database: Firestore${bootInfo.prefix ? ` (isolated prefix "${bootInfo.prefix}")` : ""} — ` +

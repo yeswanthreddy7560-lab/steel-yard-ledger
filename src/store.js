@@ -419,7 +419,7 @@ function ensureOrderTrackingCategory() {
 }
 
 function isStrongPassword(value) {
-  return typeof value === "string" && value.length >= 12 && value.length <= 128;
+  return typeof value === "string" && value.length >= 8 && value.length <= 128;
 }
 
 function removeLegacyPasswordFile(logger) {

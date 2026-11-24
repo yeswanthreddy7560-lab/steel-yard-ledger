@@ -202,8 +202,8 @@
         errorBox("Enter a valid Gmail address.");
         return;
       }
-      if (password.length < 12) {
-        errorBox("Password must be at least 12 characters.");
+      if (password.length < 8) {
+        errorBox("Password must be at least 8 characters.");
         return;
       }
       if (password !== confirmPassword) {
@@ -385,8 +385,8 @@
       success.hidden = true;
       const password = form.elements.password.value;
       const confirmPassword = form.elements.confirmPassword.value;
-      if (password.length < 12) {
-        errorBox("Password must be at least 12 characters.");
+      if (password.length < 8) {
+        errorBox("Password must be at least 8 characters.");
         return;
       }
       if (password !== confirmPassword) {
@@ -421,7 +421,7 @@
     line.className = "ownership-line";
     line.textContent =
       "© " + new Date().getFullYear() + " " +
-      (document.body.dataset.owner || "Sri Sai Web — Sai Hardware Items") +
+      (document.body.dataset.owner || "Steel Yard Ledger — Alpha") +
       ". All rights reserved. Unauthorised copying or reproduction is prohibited.";
     (document.querySelector(".auth-shell") || document.body).append(line);
   }

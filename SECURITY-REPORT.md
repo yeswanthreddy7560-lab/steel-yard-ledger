@@ -1,8 +1,8 @@
 # Security Test Report
 
-- **Date:** 2026-11-20T06:39:23.517Z
-- **Target:** private Sai Hardware Items catalogue (Node.js/Express)
-- **Environment:** isolated Firestore prefix `t_sec_mwolwyki_57a099`, HTTP on 127.0.0.1:3210
+- **Date:** 2026-11-24T07:24:17.326Z
+- **Target:** private Steel Yard Ledger — Alpha catalogue (Node.js/Express)
+- **Environment:** isolated Firestore prefix `t_sec_mwudbcc0_fae003`, HTTP on 127.0.0.1:3210
 - **Result:** 64/64 checks passed (100%)
 
 All automated checks passed.
@@ -23,7 +23,7 @@ All automated checks passed.
 | 12 | Authentication endpoint requires a valid CSRF token | PASS |  |
 | 13 | Remember-me sign-in extends the session to 30 days | PASS | 30.0-day session |
 | 14 | Sign-in without remember-me keeps the short session | PASS | 8.0-hour session |
-| 15 | Admin can load the full catalogue (11 categories / 207 items) | PASS |  |
+| 15 | Admin can load the full catalogue (12 categories / 215 items) | PASS |  |
 | 16 | State-changing API calls without a CSRF token are blocked | PASS |  |
 | 17 | Cross-origin state-changing requests are blocked | PASS |  |
 | 18 | Item input validation rejects missing and invalid fields | PASS |  |
@@ -51,7 +51,7 @@ All automated checks passed.
 | 40 | Invalid order statuses and wrong-category status use are rejected | PASS |  |
 | 41 | Viewers cannot change order statuses (403) | PASS |  |
 | 42 | CSV export requires authentication | PASS |  |
-| 43 | Catalogue export is administrator-only | PASS | 209 item rows |
+| 43 | Catalogue export is administrator-only | PASS | 217 item rows |
 | 44 | Customer export escapes spreadsheet formula injection | PASS |  |
 | 45 | Revoking a user invalidates their active session immediately | PASS |  |
 | 46 | Password change requires the current password and revokes other sessions | PASS |  |
@@ -60,7 +60,7 @@ All automated checks passed.
 | 49 | Expired reset links are rejected without changing the password | PASS |  |
 | 50 | Five failed attempts lock the account (429) | PASS |  |
 | 51 | Login, forgot-password, and reset limits return 429 after repeated requests | PASS |  |
-| 52 | Common breached passwords are rejected at registration | PASS |  |
+| 52 | Symbol-only passwords are accepted at registration | PASS |  |
 | 53 | TOTP implementation matches the RFC 6238 test vector | PASS |  |
 | 54 | 2FA enrollment for admins issues a secret and recovery codes | PASS |  |
 | 55 | Admin sign-in now requires a valid authenticator code | PASS |  |
@@ -71,7 +71,7 @@ All automated checks passed.
 | 60 | Admin console loads for administrators | PASS |  |
 | 61 | Admin console is marked noindex and sets no-store | PASS |  |
 | 62 | Catalogue markup escaping and read-only rendering are implemented | PASS |  |
-| 63 | Stored credentials are bcrypt hashes, never plaintext | PASS | 8 users, 82 events in Firestore |
+| 63 | Stored credentials are bcrypt hashes, never plaintext | PASS | 9 users, 83 events in Firestore |
 | 64 | Generated admin passwords force a change and are never written to disk | PASS |  |
 
 ## Notes

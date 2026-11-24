@@ -41,7 +41,7 @@ router.post("/api/vendors", requireAdmin, csrfProtection, asyncHandler(async (re
   if (!/^$/.test(contact) && contact && contact.length > 120) {
     return res.status(400).json({ error: "Contact must be 120 characters or fewer." });
   }
-  let score = Number.parseInt(String(req.body && req.body.reliabilityScore ?? ""), 10);
+  let score = Number.parseInt(String((req.body && req.body.reliabilityScore) ?? ""), 10);
   if (!Number.isFinite(score)) score = 0;
   score = Math.max(0, Math.min(10, Math.floor(score)));
   const notes = cleanString(req.body && req.body.notes, 300);
@@ -57,7 +57,7 @@ router.put("/api/vendors/:id", requireAdmin, csrfProtection, asyncHandler(async 
   const vendor = store.updateVendor(id, {
     name: cleanString(req.body && req.body.name, 100),
     contact: cleanString(req.body && req.body.contact, 120),
-    reliabilityScore: Number.parseInt(String(req.body && req.body.reliabilityScore ?? ""), 10) || 0,
+    reliabilityScore: Number.parseInt(String((req.body && req.body.reliabilityScore) ?? ""), 10) || 0,
     notes: cleanString(req.body && req.body.notes, 300)
   });
   if (!vendor) return res.status(404).json({ error: "Vendor not found." });

@@ -81,11 +81,20 @@ function main() {
     check("metrics body exposes app summary", metricsBody.includes("steel_yard_ledger_users"));
   }
 
-  mainLoop().catch((error) => {
+  /* Stop the child server and exit. Waiting a few seconds before
+     process.exit() lets the child and its pipes finish closing, which
+     avoids a Node assertion on Windows. */
+  function stopServerAndExit(code) {
     child.kill();
-    console.error(`smoke failed: ${error.message}`);
-    process.exit(1);
-  });
+    setTimeout(() => process.exit(code), 3000);
+  }
+
+  mainLoop()
+    .then(() => stopServerAndExit(0))
+    .catch((error) => {
+      console.error(`smoke failed: ${error.message}`);
+      stopServerAndExit(1);
+    });
 
   process.on("exit", () => child.kill());
 }

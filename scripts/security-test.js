@@ -249,9 +249,9 @@ async function run() {
       const home = await anon.fetch("/");
       assert.equal(home.status, 200);
       const html = await home.text();
-      assert.match(html, /Sai Hardware Items/);
+      assert.match(html, /Steel Yard Ledger/);
       assert.match(html, /<meta name="robots" content="index, follow/);
-      assert.match(html, /rel="canonical" href="https:\/\/saihardwareitems\.com\/"/);
+      assert.match(html, /rel="canonical" href="https:\/\/steel-yard-ledger\.fly\.dev\/"/);
       assert.match(html, /application\/ld\+json/);
       assert.doesNotMatch(html, /api\/materials|order-tracking/);
 
@@ -264,13 +264,13 @@ async function run() {
       const robots = await anon.fetch("/robots.txt");
       assert.equal(robots.status, 200);
       const robotsText = await robots.text();
-      assert.match(robotsText, /Sitemap: https:\/\/saihardwareitems\.com\/sitemap\.xml/);
+      assert.match(robotsText, /Sitemap: https:\/\/steel-yard-ledger\.fly\.dev\/sitemap\.xml/);
       assert.match(robotsText, /Disallow: \/catalogue/);
 
       const sitemap = await anon.fetch("/sitemap.xml");
       assert.equal(sitemap.status, 200);
       const sitemapText = await sitemap.text();
-      assert.match(sitemapText, /<loc>https:\/\/saihardwareitems\.com\/<\/loc>/);
+      assert.match(sitemapText, /<loc>https:\/\/steel-yard-ledger\.fly\.dev\/<\/loc>/);
     });
 
     await test("Anonymous API access to the catalogue is rejected with 401", async () => {
@@ -420,13 +420,13 @@ async function run() {
 
     /* ---------------- Authorization ---------------- */
 
-    await test("Admin can load the full catalogue (11 categories / 207 items)", async () => {
+    await test("Admin can load the full catalogue (12 categories / 215 items)", async () => {
       const response = await admin.fetch("/api/materials");
       assert.equal(response.status, 200);
       assert.equal(response.headers.get("content-type").split(";")[0], "application/json");
       const data = await response.json();
-      assert.equal(data.categories.length, 11);
-      assert.equal(data.categories.reduce((sum, category) => sum + category.items.length, 0), 207);
+      assert.equal(data.categories.length, 12);
+      assert.equal(data.categories.reduce((sum, category) => sum + category.items.length, 0), 215);
       const orderTracking = data.categories.find((category) => category.id === "order-tracking");
       assert.ok(orderTracking, "Order Tracking category exists");
       assert.equal(orderTracking.adminOnly, true);
@@ -774,7 +774,7 @@ async function run() {
 
       const viewerCatalogue = await (await viewer.fetch("/api/materials")).json();
       assert.ok(!viewerCatalogue.categories.some((category) => category.id === "order-tracking"));
-      assert.equal(viewerCatalogue.categories.length, 10);
+      assert.equal(viewerCatalogue.categories.length, adminCatalogue.categories.length - 1);
     });
 
     await test("Order Tracking items default to 'to_order' and can be toggled", async () => {
@@ -1143,18 +1143,17 @@ async function run() {
       }
     });
 
-    /* ---------------- Hardened auth: breach list, 2FA, revocation ---------------- */
+    /* ---------------- Hardened auth: permissive passwords, 2FA, revocation ---------------- */
 
-    await test("Common breached passwords are rejected at registration", async () => {
+    await test("Symbol-only passwords are accepted at registration", async () => {
       const client = new HttpClient(ORIGIN);
       await client.initSession();
       const response = await client.postJson("/api/auth/register", {
-        username: "breachprobe",
-        email: "breachprobe@example.com",
-        password: "Password123!"
+        username: "symbolprobe",
+        email: "symbolprobe@example.com",
+        password: "!@#$%^&*"
       });
-      assert.equal(response.status, 400);
-      assert.match((await response.json()).error, /breach/i);
+      assert.equal(response.status, 201, await response.clone().text());
     });
 
     await test("TOTP implementation matches the RFC 6238 test vector", async () => {
@@ -1484,7 +1483,7 @@ async function run() {
     "# Security Test Report",
     "",
     `- **Date:** ${new Date().toISOString()}`,
-    `- **Target:** private Sai Hardware Items catalogue (Node.js/Express)`,
+    `- **Target:** private Steel Yard Ledger — Alpha catalogue (Node.js/Express)`,
     `- **Environment:** isolated Firestore prefix \`${PREFIX}\`, HTTP on 127.0.0.1:${PORT}`,
     `- **Result:** ${passed}/${results.length} checks passed (${score}%)`,
     "",

@@ -47,7 +47,7 @@ function main() {
 
     const root = await request("/");
     check("home is 200", root.status === 200);
-    check("home is noindex/nofollow", /noindex,\s*nofollow/.test(root.headers.get("x-robots-tag") || ""));
+    check("non-canonical test host is noindex/nofollow", /noindex,\s*nofollow/.test(root.headers.get("x-robots-tag") || ""));
 
     const catalogue = await request("/catalogue");
     check("catalogue redirects anonymous to /login", catalogue.status === 302 && catalogue.headers.get("location") === "/login");
@@ -76,11 +76,16 @@ function main() {
     check("health body is valid JSON", healthBody.status === "ok");
   }
 
-  mainLoop().catch((error) => {
-    child.kill();
-    console.error(`smoke failed: ${error.message}`);
-    process.exit(1);
-  });
+  mainLoop()
+    .then(() => {
+      child.kill();
+      console.log("Smoke checks: all passed.");
+    })
+    .catch((error) => {
+      child.kill();
+      console.error(`smoke failed: ${error.message}`);
+      process.exitCode = 1;
+    });
 
   process.on("exit", () => child.kill());
 }

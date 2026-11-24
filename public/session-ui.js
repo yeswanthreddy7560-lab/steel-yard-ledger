@@ -123,7 +123,7 @@
     hint.className = "form-hint";
     hint.textContent = forced
       ? "This account has a temporary password. Choose a strong new one — nothing else can be done until it is changed."
-      : "Use at least 12 characters with a mix of letters, numbers, and symbols.";
+      : "Use 8–128 characters. All letters, numbers, and symbols are allowed.";
 
     const error = document.createElement("p");
     error.className = "form-error";
@@ -449,7 +449,7 @@
     const line = document.createElement("p");
     line.className = "ownership-line";
     line.textContent =
-      "© " + new Date().getFullYear() + " Sri Sai Web — Sai Hardware Items. " +
+      "© " + new Date().getFullYear() + " Steel Yard Ledger — Alpha. " +
       "All rights reserved. This site and its content belong to their owner; " +
       "unauthorised copying or reproduction is prohibited.";
     let footer = document.querySelector(".site-footer");

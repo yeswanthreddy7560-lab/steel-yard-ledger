@@ -1,6 +1,6 @@
 # Customer Register Test Report
 
-Date: 2026-11-20T06:39:55.246Z
+Date: 2026-11-24T07:23:13.376Z
 
 - [x] Expiry unit checks: one calendar month with month-end clamping
 - [x] Adding a customer returns the record with a one-month expiry
@@ -16,7 +16,7 @@ Date: 2026-11-20T06:39:55.246Z
 - [x] Status and date-range filters work
 - [x] Dashboard summary counts match the owner's register
 - [x] Serial numbering is derived from display order, not database ids
-- [x] Pagination with 1,000 records stays fast and correct — created 1000 records in 3620ms; paged+searched in 32ms
+- [x] Pagination with 1,000 records stays fast and correct — created 1000 records in 1526ms; paged+searched in 58ms
 - [x] Anonymous access is rejected with 401
 - [x] Requests without a CSRF token are rejected
 - [x] Owner B cannot see, edit or delete owner A's records (IDOR)

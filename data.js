@@ -1,8 +1,8 @@
 /*
- * Sai Hardware Items — Material Master Table
+ * Steel Yard Ledger — Alpha — Material Master Table
  * Normalized from material_hardware_master_table.txt
  *
- * 207 items across 10 categories.
+ * 215 items across 11 categories.
  * price: null when not specified in the source.
  * unit:  null when not specified in the source.
  * notes: source annotations such as [check] or [unclear].

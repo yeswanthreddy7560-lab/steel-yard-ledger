@@ -13,6 +13,14 @@ function newCsrfToken() {
   return crypto.randomBytes(32).toString("hex");
 }
 
+/** Issues a fresh session-bound CSRF token and stamps its rolling expiry. */
+function rotateCsrfToken(session) {
+  if (!session) return "";
+  session.csrfToken = newCsrfToken();
+  session.csrfTokenExp = Date.now() + CSRF_TOKEN_TTL_MS;
+  return session.csrfToken;
+}
+
 function csrfTokenExpired(session) {
   return !session || !session.csrfTokenExp || Date.now() > Number(session.csrfTokenExp);
 }
@@ -124,56 +132,20 @@ function parseDecimal(value) {
 }
 
 function validateUsername(value) {
-  const username = cleanString(value, 32);
-  if (!USERNAME_RE.test(username)) {
+  const username = typeof value === "string" ? value.trim() : "";
+  if (username.length > 32 || !USERNAME_RE.test(username)) {
     return { ok: false, error: "Username must be 3-32 characters: letters, numbers, dot, dash or underscore." };
   }
   return { ok: true, value: username };
 }
 
-/* Compact blocklist of the most common passwords that also satisfy the
-   class rules — dictionary attacks try these first. */
-const COMMON_PASSWORDS = new Set([
-  "password123!", "password1234!", "password1!", "password12!", "p@ssw0rd123",
-  "p@ssword123!", "passw0rd123!", "abcd1234!@#$", "qwer1234!@#$", "qwerty12345!",
-  "qwerty123!", "123456abcdef", "abc123def456", "iloveyou123!", "admin123456!",
-  "administrator1!", "letmein12345!", "welcome12345!", "welcome123456!",
-  "monkey123456!", "dragon123456!", "master123456!", "sunshine12345!",
-  "princess12345!", "football12345!", "baseball12345!", "superman12345!",
-  "trustno1passw", "changeme12345", "india12345678", "temperature1@"
-]);
-
-/* Rejects trivially predictable constructions: long runs, repeats, keyboard
-   walks. Six consecutive run characters is the threshold — short digit
-   suffixes (e.g. "...#12345") are common but long ones are weak. */
-function isPredictablePattern(password) {
-  const lowered = password.toLowerCase();
-  const runs = ["abcdefghijklmnopqrstuvwxyz", "0123456789", "qwertyuiop", "asdfghjkl", "zxcvbnm"];
-  for (const run of runs) {
-    const reversed = [...run].reverse().join("");
-    for (const seq of [run, reversed]) {
-      for (let i = 0; i + 6 <= seq.length; i++) {
-        if (lowered.includes(seq.slice(i, i + 6))) return true;
-      }
-    }
-  }
-  if (/(.)\1{3,}/.test(password)) return true; // "aaaa", "11111"
-  return false;
-}
-
 function validatePasswordStrength(password) {
-  if (typeof password !== "string" || password.length < 12 || password.length > 128) {
-    return { ok: false, error: "Password must be between 12 and 128 characters." };
-  }
-  const classes = [/[a-z]/, /[A-Z]/, /[0-9]/, /[^A-Za-z0-9]/].filter((re) => re.test(password)).length;
-  if (classes < 3) {
-    return { ok: false, error: "Password must include at least three of: lowercase, uppercase, numbers, symbols." };
-  }
-  if (COMMON_PASSWORDS.has(password.toLowerCase())) {
-    return { ok: false, error: "That password appears in known breach lists. Choose something unique." };
-  }
-  if (isPredictablePattern(password)) {
-    return { ok: false, error: "That password is too predictable (runs, repeats or keyboard patterns). Choose something unique." };
+  // Permissive policy: 8–128 characters, all symbols allowed. We deliberately
+  // avoid an arbitrary character-class requirement so every symbol/unicode
+  // arrangement a user chooses is accepted. Length is measured on the exact
+  // value that bcrypt will hash, so leading/trailing spaces are significant.
+  if (typeof password !== "string" || password.length < 8 || password.length > 128) {
+    return { ok: false, error: "Password must be between 8 and 128 characters." };
   }
   return { ok: true, value: password };
 }
@@ -332,6 +304,7 @@ function noCache(_req, res, next) {
 
 module.exports = {
   newCsrfToken,
+  rotateCsrfToken,
   ensureCsrfToken,
   csrfProtection,
   sameOriginGuard,

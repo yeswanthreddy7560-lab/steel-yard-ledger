@@ -97,17 +97,17 @@ appears in the admin console.
 
 ### Canonical hostname
 
-`CANONICAL_HOST` defaults to `saihardwareitems.com`. Until that domain is
-registered and attached to Hosting, set these on the function so the
-`web.app` preview is coherent (it is still marked `noindex` because it is not
-the canonical host):
+`CANONICAL_HOST` defaults to `steel-yard-ledger.fly.dev` for the Fly.io
+deployment. If you deploy on Firebase Hosting, set it to the Hosting hostname
+(for example `saihardwareitems.web.app`) so the preview stays coherent — it is
+still marked `noindex` because it is not the canonical host:
 
 ```dotenv
 CANONICAL_HOST=saihardwareitems.web.app
 CANONICAL_ORIGIN=https://saihardwareitems.web.app
 ```
 
-After attaching the custom domain, switch them back to the apex domain and
+After attaching a custom domain, switch both values to that domain and
 redeploy.
 
 ---

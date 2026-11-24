@@ -1,4 +1,4 @@
-# Sai Hardware Items — production container.
+# Steel Yard Ledger — production container.
 #
 # Node 22.5+ is required. Application data lives in Google Firestore, so the
 # container is fully disposable: /data only holds the service account (or use

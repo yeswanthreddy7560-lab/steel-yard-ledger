@@ -1,0 +1,10 @@
+# Steel Yard Ledger — Cloudflare Tunnel ingress (docs\DEPLOY-PERMANENT-URL.md)
+# TODO: after `cloudflared tunnel create steel-yard-ledger`, replace the
+# credentials-file path below with the exact path printed by that command.
+tunnel: steel-yard-ledger
+credentials-file: C:\Users\yeswa\AppData\Local\cloudflared\tunnel-credentials-steel-yard-ledger.json
+
+ingress:
+  - hostname: ledger.yourdomain.com      # your routed hostname (runbook step 2)
+    service: http://localhost:3000      # the app (runbook step 4)
+  - service: http_status:404            # fallback

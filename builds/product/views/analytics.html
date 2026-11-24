@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Steel Yard Ledger analytics — revenue, top sellers, inventory health." />
+    <title>Analytics — Steel Yard Ledger</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      body.requires-session { display: block; }
+      #app { max-width: 1100px; margin: 0 auto; padding: 0 1rem 2rem; }
+      .page-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+      .page-head h1 { margin: 0; font-size: 2rem; }
+      .stats { display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: 0.75rem; margin: 1.5rem 0; }
+      @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+      .stat-card { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+      .stat-card .stat-value { font-size: 1.5rem; font-weight: 700; }
+      .stat-card .stat-label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+      .stat-card.highlight .stat-value { color: #ff8a00; }
+      .section { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+      .section-heading { display: flex; align-items: baseline; gap: 0.75rem; }
+      .section-subtitle { color: #555; font-size: 0.85rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+      th, td { text-align: left; padding: 0.45rem 0.4rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+      th { color: #555; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      .badge { display: inline-block; padding: 0.05rem 0.5rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; background: #fff4e0; color: #a15e00; }
+      .badge.info { background: #e8f0fe; color: #1d5bb5; }
+      .muted { color: #777; }
+      .empty { color: #777; font-style: italic; padding: 0.75rem 0; }
+    </style>
+  </head>
+  <body class="requires-session">
+    <header class="site-header">
+      <div class="session-bar">
+        <span class="session-user">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="user-label">Signed in</span>
+        </span>
+        <span class="session-actions">
+          <a class="session-link" href="/catalogue">Materials</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" href="/analytics">Analytics</a>
+          <a class="session-link" href="/vendors">Vendors</a>
+          <a class="session-link" href="/bulk">Bulk</a>
+          <a class="session-link" href="/team">Team</a>
+          <a class="session-link" href="/alerts">Alerts</a>
+          <a class="session-link" href="/">Home</a>
+        </span>
+      </div>
+      <div class="header-inner">
+        <div class="header-copy">
+          <p class="brand-mark">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#202325"/><circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/></svg>
+            Steel Yard Ledger
+          </p>
+          <h1>Analytics</h1>
+          <p class="subtitle">Revenue, top sellers and stock health at a glance. All numbers are from your sales and inventory records.</p>
+        </div>
+      </div>
+    </header>
+
+    <main id="app">
+      <div class="stats" aria-label="Key numbers"><div class="stat-card" id="stat-card-revenue"><span class="stat-value">–</span><span class="stat-label">Revenue (30d)</span></div><div class="stat-card" id="stat-card-top"><span class="stat-value">–</span><span class="stat-label">Top Seller</span></div><div class="stat-card highlight" id="stat-card-low"><span class="stat-value">–</span><span class="stat-label">Low Stock</span></div><div class="stat-card" id="stat-card-sales"><span class="stat-value">–</span><span class="stat-label">Sales (30d)</span></div></div>
+      <div class="section">
+        <div class="section-heading"><h2>Revenue by month</h2><span class="section-subtitle" id="rev-subtitle"></span></div>
+        <div id="rev-chart" class="muted" style="height: 140px; display: flex; align-items: flex-end; gap: 0.4%; padding: 0 0.2rem;"></div>
+        <div id="rev-bars"></div>
+      </div>
+      <div class="section">
+        <div class="section-heading"><h2>Top sellers</h2><span class="section-subtitle">By revenue in the last 30 days.</span></div>
+        <table id="top-table"><thead><tr><th>Product</th><th style="text-align:right">Revenue</th><th style="text-align:right">Sold</th><th style="text-align:right">Stock</th><th style="text-align:right">Vendor</th></tr></thead><tbody></tbody></table>
+        <div class="empty" id="top-empty" hidden>No sales recorded yet.</div>
+      </div>
+      <div class="section">
+        <div class="section-heading"><h2>Inventory</h2><span class="section-subtitle" id="inv-subtitle"></span></div>
+        <table id="inv-table"><thead><tr><th>Product</th><th>Size</th><th>Unit</th><th>Category</th><th style="text-align:right">Price</th><th style="text-align:right">Stock</th><th style="text-align:right">Reorder</th><th style="text-align:right">Sold</th><th>Status</th></tr></thead><tbody></tbody></table>
+        <div class="empty" id="inv-empty" hidden>Every item is in stock.</div>
+      </div>
+    </main>
+
+    <footer class="site-footer"><p>Analytics reflect recorded sales and current stock. Refreshed live.</p></footer>
+    <script src="/public/analytics.js"></script>
+  </body>
+</html>

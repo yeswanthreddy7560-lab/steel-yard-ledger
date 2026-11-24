@@ -23,6 +23,7 @@ const { sameOriginGuard } = require("./security");
 const { ipBanGuard, loadCurrentUser, enforcePasswordChange } = require("./middleware/auth");
 const { apiLimiter } = require("./middleware/rate-limit");
 const pagesRouter = require("./routes/pages");
+const seoRouter = require("./routes/seo");
 const authRouter = require("./routes/auth");
 const materialsRouter = require("./routes/materials");
 const customersRouter = require("./routes/customers");
@@ -146,6 +147,9 @@ function createApp() {
   app.use(loadCurrentUser);
   app.use("/api", enforcePasswordChange);
   app.use("/api", apiLimiter);
+
+  /* Generated robots.txt / sitemap.xml must beat the legacy static copies. */
+  app.use(seoRouter);
 
   /* Protected HTML lives in views/, never served here */
   app.use(

@@ -31,8 +31,9 @@ anonymously.
 
 - Passwords hashed with **bcrypt, cost 12**. Plaintext is never written to the
   database, logs, or API responses.
-- Password policy: 12–128 characters, at least three of lowercase/uppercase/
-  digits/symbols, enforced server-side (and mirrored in the UI).
+- Password policy: 8–128 characters; every symbol, number, and letter is
+  accepted (no character-class or predictability requirements), enforced
+  server-side and mirrored in the UI.
 - Usernames: 3–32 characters from `[A-Za-z0-9_.-]`, case-insensitive uniqueness.
 - New registrations require a unique, valid email address (stored lowercase);
   sign-in accepts either the username or that address.
@@ -168,7 +169,7 @@ Firestore collections and executes 64 checks covering:
 - Order Tracking visibility, defaults, toggles, and invalid-status rejection.
 - Image upload/read, anonymous image 401, magic-byte rejection, 413 oversize,
   traversal in image IDs.
-- Registration validation, breached-password rejection, pending lockout,
+- Registration validation, permissive password policy, pending lockout,
   admin-only approval, viewer read-only access, admin-console redirect,
   immediate revocation, promote/demote rules.
 - Account lockout after 5 failures, password change with session revocation,

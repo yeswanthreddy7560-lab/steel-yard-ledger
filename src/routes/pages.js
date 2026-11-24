@@ -30,6 +30,7 @@ router.get("/", pageHeaders, (req, res) => {
   res.type("html").send(
     WELCOME_TEMPLATE
       .replaceAll("__CANONICAL_ORIGIN__", config.canonicalOrigin)
+      .replaceAll("__CANONICAL_HOST__", config.canonicalHost)
       .replaceAll("__CSP_NONCE__", res.locals.cspNonce || "")
   );
 });

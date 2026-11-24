@@ -1,9 +1,16 @@
-# Sri Sai Web — Steel Yard Ledger — Alpha
+# Steel Yard Ledger — Alpha
 
-A **private** web application for the 207-item material and hardware master
-list. Nothing is publicly readable: the catalogue is served only to signed-in
-users, and new accounts stay locked until an administrator approves them or the
-registrant proves control of the registered Gmail address with an emailed code.
+**Live:** <https://steel-yard-ledger.fly.dev> (Fly.io; `/api/health` returns `200`).
+
+A **private** web application for the material and hardware master list (215
+items in the seed data, 217 in the live Firestore catalogue). Nothing is
+publicly readable: the catalogue is served only to signed-in users, and new
+accounts stay locked until an administrator approves them or the registrant
+proves control of the registered Gmail address with an emailed code.
+
+The public homepage is indexable and submits `sitemap.xml`; every authenticated
+page is `noindex` and blocked in `robots.txt`. Deployment and Google Search
+Console steps are in [docs/DEPLOY-FLY.md](docs/DEPLOY-FLY.md).
 
 The original static, browser-only version is preserved in `legacy/` for
 reference. It is not served by the application.
@@ -14,6 +21,7 @@ writes changes back through a batched, retried queue.
 
 ## Contents
 
+- [Live deployment](docs/DEPLOY-FLY.md)
 - [Requirements](#requirements)
 - [Quick start](#quick-start)
 - [First sign-in](#first-sign-in)
@@ -73,8 +81,7 @@ $env:ADMIN_PASSWORD = "YourStrongPassword#2026"
 npm start
 ```
 
-The password must be 12–128 characters and use at least three of: lowercase,
-uppercase, numbers, symbols.
+The password must be 8–128 characters. All symbols are allowed.
 
 ## First sign-in
 
@@ -210,11 +217,11 @@ there. Firebase Functions reads the same `.env` at deploy time.
 | `TLS_KEY` / `TLS_CERT` | — | PEM files; enables HTTPS when both are set |
 | `TRUST_PROXY` | `false` | Trust one reverse-proxy hop (needed for correct client IPs) |
 | `APP_ORIGIN` | request-derived | Exact public origin expected on API writes |
-| `CANONICAL_HOST` | `saihardwareitems.com` | Apex hostname that is indexable; `www` redirects here and other hosts get `X-Robots-Tag: noindex` |
+| `CANONICAL_HOST` | `steel-yard-ledger.fly.dev` | Apex hostname that is indexable; `www` redirects here and other hosts get `X-Robots-Tag: noindex` |
 | `CANONICAL_ORIGIN` | `https://CANONICAL_HOST` | Absolute origin used for canonical URLs, Open Graph, JSON-LD, and the sitemap |
 | `REGISTRATION_ENABLED` | `true` | Allow new access requests |
 | `ADMIN_USERNAME` | `admin` | Bootstrap administrator username |
-| `ADMIN_PASSWORD` | generated | Bootstrap administrator password (12+ chars) |
+| `ADMIN_PASSWORD` | generated | Bootstrap administrator password (8–128 characters, any symbols) |
 | `API_RATE_LIMIT` / `LOGIN_RATE_LIMIT` / `REGISTER_RATE_LIMIT` | `600` / `10` / `5` | Per-IP limits |
 | `FORGOT_RATE_LIMIT` / `RESET_RATE_LIMIT` | `5` / `10` | Password-reset request and attempt limits per IP |
 | `RESET_OTP_TTL_SECONDS` | `600` | Lifetime of an emailed 6-digit code (1–3600) |

@@ -22,6 +22,7 @@ const { asyncHandler } = require("../async-handler");
 const { SESSION_COOKIE, config, loadSessionSecret } = require("../config");
 const {
   ensureCsrfToken,
+  rotateCsrfToken,
   csrfProtection,
   hashResetToken,
   hashOtpCode,
@@ -191,7 +192,7 @@ router.post("/api/auth/login", loginLimiter, csrfProtection, asyncHandler(async 
   req.session.regenerate((regenerateError) => {
     if (regenerateError) return next(regenerateError);
     req.session.userId = user.id;
-    req.session.csrfToken = crypto.randomBytes(32).toString("hex");
+    rotateCsrfToken(req.session);
     // "Keep me signed in": extend this session's server-side expiry and
     // its cookie together. Everything else (HttpOnly, SameSite=Strict,
     // Firestore store, revocation paths) is unchanged.

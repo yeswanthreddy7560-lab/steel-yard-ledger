@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Steel Yard Ledger — team plans and usage budgets." />
+    <title>Team &amp; Budgets — Steel Yard Ledger</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      #app { max-width: 1100px; margin: 0 auto; padding: 0 1rem 2rem; }
+      .page-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+      .page-head h1 { margin: 0; font-size: 2rem; }
+      .section { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+      .section-heading { display: flex; align-items: baseline; gap: 0.75rem; }
+      .section-subtitle { color: #555; font-size: 0.85rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+      th, td { text-align: left; padding: 0.45rem 0.4rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+      th { color: #555; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      input[type="text"], input[type="number"], select { padding: 0.35rem 0.5rem; border: 1px solid rgba(0,0,0,0.15); border-radius: 6px; box-sizing: border-box; font: inherit; width: 100%; }
+      label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.78rem; color: #555; margin-bottom: 0.75rem; }
+      .bars { display: grid; gap: 0.5rem; margin-top: 0.5rem; }
+      .bar { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; }
+      .bar-track { flex: 1; height: 10px; background: #ececec; border-radius: 999px; overflow: hidden; }
+      .bar-fill { height: 100%; background: #ffc400; border-radius: 999px; }
+      .muted { color: #777; }
+      .empty { color: #777; font-style: italic; padding: 0.75rem 0; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body class="requires-session">
+    <header class="site-header">
+      <div class="session-bar">
+        <span class="session-user"><span class="session-dot" aria-hidden="true"></span><span id="user-label">Signed in</span></span>
+        <span class="session-actions">
+          <a class="session-link" href="/catalogue">Materials</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" href="/analytics">Analytics</a>
+          <a class="session-link" href="/vendors">Vendors</a>
+          <a class="session-link" href="/bulk">Bulk</a>
+          <a class="session-link" href="/team">Team</a>
+          <a class="session-link" href="/alerts">Alerts</a>
+          <a class="session-link" href="/">Home</a>
+        </span>
+      </div>
+      <div class="header-inner">
+        <div class="header-copy">
+          <p class="brand-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#202325"/><circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/></svg>Steel Yard Ledger</p>
+          <h1>Team &amp; Budgets</h1>
+          <p class="subtitle">Your team plan, the usage budgets it enforces, and who is on it.</p>
+        </div>
+      </div>
+    </header>
+
+    <main id="app"><div class="muted" style="padding:1rem">Loading…</div></main>
+
+    <script src="/public/team.js"></script>
+  </body>
+</html>

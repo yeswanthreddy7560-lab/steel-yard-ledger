@@ -20,7 +20,7 @@ const SESSION_COOKIE = "mh.sid";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const canonicalHost = String(process.env.CANONICAL_HOST || "saihardwareitems.com").toLowerCase();
+const canonicalHost = String(process.env.CANONICAL_HOST || "steel-yard-ledger.fly.dev").toLowerCase();
 const canonicalOrigin = String(process.env.CANONICAL_ORIGIN || `https://${canonicalHost}`).replace(/\/+$/, "");
 
 function envFlag(name, fallback = false) {

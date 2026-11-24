@@ -49,7 +49,7 @@ router.get("/api/order-requests", requireAuth, noCache, (req, res) => {
 router.post("/api/order-requests", requireAuth, csrfProtection, asyncHandler(async (req, res) => {
   const product = cleanString(req.body && req.body.product, 120);
   if (!product) return res.status(400).json({ error: "Product name is required." });
-  const quantityText = String(req.body && req.body.quantity ?? "1");
+  const quantityText = String((req.body && req.body.quantity) ?? "1");
   const quantity = Number.parseInt(quantityText, 10);
   if (!Number.isFinite(quantity) || quantity < 1 || quantity > 50) {
     return res.status(400).json({ error: "Quantity must be a whole number from 1 to 50." });

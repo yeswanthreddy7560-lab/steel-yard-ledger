@@ -37,7 +37,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "production";
 process.env.HOST = process.env.HOST || "0.0.0.0";
 process.env.DATA_DIR = DATA_DIR;
 // Hardened mode serves on 443 (the standard HTTPS port, hidden by browsers)
-// so the URL reads https://saihardwareitems.com with no :port suffix.
+// so the URL reads https://steel-yard-ledger.fly.dev with no :port suffix.
 // Plain-HTTP dev (3000) is unaffected.
 if (process.env.PORT === undefined) process.env.PORT = "443";
 
@@ -56,7 +56,7 @@ if (process.env.REGISTER_RATE_LIMIT === undefined) process.env.REGISTER_RATE_LIM
 if (process.env.IP_BAN_THRESHOLD === undefined) process.env.IP_BAN_THRESHOLD = "20";
 
 console.log("==========================================================");
-console.log(" Sai Hardware Items - hardened server mode");
+console.log(" Steel Yard Ledger — Alpha - hardened server mode");
 console.log(` Scheme:        ${hasTls ? "HTTPS" : "HTTP (no data/tls cert found)"}`);
 console.log(` Binding:       ${process.env.HOST}:${process.env.PORT || 3000}`);
 console.log(` Data dir:      ${DATA_DIR}`);

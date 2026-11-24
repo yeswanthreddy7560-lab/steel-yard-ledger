@@ -23,7 +23,7 @@
     "firestore-status": "node scripts/firestore-migrate.js --status",
     "firestore-backup": "node scripts/firestore-backup.js",
     "smoke-test": "node scripts/smoke-test.js",
-    "unit-test": "node scripts/unit-test.js",
+    "unit-test": "node --test tests/unit/security.test.js",
     "ci": "npm run unit-test && npm run customer-test && npm run security-test && npm run smoke-test"
   },
   "dependencies": {

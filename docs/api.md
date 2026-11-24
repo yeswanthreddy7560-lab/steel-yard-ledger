@@ -1,7 +1,7 @@
 # API Reference — Steel Yard Ledger — Alpha v2
 
-Base URL: `http://localhost:3000` locally, `https://saihardwareitems.web.app`
-on Firebase Hosting (custom domain `https://saihardwareitems.com` once attached).
+Base URL: `http://localhost:3000` locally, `https://steel-yard-ledger.fly.dev`
+in production (or the hostname configured through `CANONICAL_ORIGIN`).
 All routes are same-origin; there is no version prefix.
 
 ## Conventions
@@ -28,7 +28,7 @@ All routes are same-origin; there is no version prefix.
 | GET | `/api/auth/session` | none | Returns `{ authenticated, csrfToken, user?, mustChangePassword? }`. Call first to obtain the CSRF token. |
 | POST | `/api/auth/login` | CSRF + limiter | Body `{ username, password, rememberMe?, totpCode? }`; `username` may be the username **or** the registered Gmail address (case-insensitive). `rememberMe: true` → 30-day session. Admin accounts with 2FA enabled must send `totpCode` (6-digit authenticator code or a one-time recovery code); without it the response is `401 { code: "totp_required" }`. Returns `{ user, mustChangePassword, csrfToken }`. |
 | POST | `/api/auth/logout` | CSRF | Destroys the session. |
-| POST | `/api/auth/register` | CSRF + limiter | Body `{ username, email, password }`. Requires a unique valid email address; creates a **pending** account unless registration is disabled. Breach-listed and predictable passwords are rejected. |
+| POST | `/api/auth/register` | CSRF + limiter | Body `{ username, email, password }`. Requires a unique valid email address; creates a **pending** account unless registration is disabled. Passwords must be 8–128 characters; all letters, digits, and symbols are accepted. |
 | POST | `/api/auth/forgot-password` | CSRF + limiter | Body `{ email }`. Always returns the same generic message for known and unknown addresses. For a real account, emails a 6-digit code (10-minute lifetime, 5 attempts, 60-second resend) and flags `resetRequestedAt` in the admin list. No token or code is returned. |
 | POST | `/api/auth/verify-reset-code` | CSRF + limiter | Body `{ email, code }`. Verifies the emailed code and returns `{ resetToken, expiresInMinutes, message }` once. The code is consumed; wrong guesses count toward the five-attempt cap. If the account was **pending**, verification approves it (the mailbox is proven); rejected/revoked accounts stay blocked. |
 | POST | `/api/auth/reset-password` | CSRF + limiter | Body `{ token, password }`. Consumes the token returned by `/verify-reset-code` or an administrator-issued link, enforces password strength, clears lockouts, and revokes every session. Invalid, used, or expired tokens → `400` with the same message. |
@@ -167,7 +167,7 @@ Both routes return `text/csv; charset=utf-8` with a UTF-8 BOM (Excel-friendly) a
 | `HTTPS` / `TLS_KEY` / `TLS_CERT` | off | Native TLS mode. |
 | `TRUST_PROXY` | `false` | Trust one reverse-proxy hop (Cloudflare tunnel). |
 | `APP_ORIGIN` | request-derived | Exact public origin expected on API writes. |
-| `CANONICAL_HOST` | `saihardwareitems.com` | Apex hostname that is indexable; `www` 301s here, other hosts get `X-Robots-Tag: noindex`. |
+| `CANONICAL_HOST` | `steel-yard-ledger.fly.dev` | Apex hostname that is indexable; `www` 301s here, other hosts get `X-Robots-Tag: noindex`. |
 | `CANONICAL_ORIGIN` | `https://CANONICAL_HOST` | Absolute origin used in canonical URLs, Open Graph, JSON-LD, and the sitemap. |
 | `API_RATE_LIMIT` | `600` | General API requests per 15-minute window. |
 | `LOGIN_RATE_LIMIT` / `REGISTER_RATE_LIMIT` | `10` / `5` | Auth attempt limits. |
@@ -184,5 +184,5 @@ the database is unreachable. It never creates a local database file.
 
 ## Test suites
 
-- `npm run security-test` — 64 checks covering the public homepage and SEO metadata, auth, CSRF, 2FA, roles, Order Tracking, exports, forced password changes, emailed reset codes and tokens, email-verified account approval, Gmail sign-in, breach-list rejection, and IP auto-bans.
+- `npm run security-test` — 64 checks covering the public homepage and SEO metadata, auth, CSRF, 2FA, roles, Order Tracking, exports, forced password changes, emailed reset codes and tokens, email-verified account approval, Gmail sign-in, permissive password policy, and IP auto-bans.
 - `npm run customer-test` — 24 checks covering the register, expiry engine, and ownership.

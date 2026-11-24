@@ -18,7 +18,7 @@ Version 2.0.0 · Node.js ≥ 22.5 · Express · Firestore · Firebase Functions/
 ## 3. Authentication & accounts
 
 - R3.1 Session auth: HTTP-only cookies, opaque server-side sessions persisted in Firestore with an in-memory cache; signing secret from `SESSION_SECRET` or `data/session-secret`.
-- R3.2 Passwords: bcrypt (cost ≥ 12), strength validation, rejection of passwords found in breach lists (top-N common-password check in `src/security.js`).
+- R3.2 Passwords: bcrypt (cost ≥ 12); permissive policy of 8–128 characters with every letter, digit, and symbol accepted (no character-class or common-password blocklist).
 - R3.3 Brute-force defence: per-account lockout (5 failures → temporary lock), per-IP login rate limit, generic error messages, timing-equalized unknown-user path (dummy hash compare).
 - R3.4 Forced first-login password change (`must_change_password`); generated/bootstrap passwords always have the flag set.
 - R3.5 Remember-me extends session lifetime; show-password toggle in the UI.
@@ -65,7 +65,7 @@ Version 2.0.0 · Node.js ≥ 22.5 · Express · Firestore · Firebase Functions/
 ## 9. Testing gates
 
 - R9.1 `npm run customer-test` — 24 tests (register, ordering, exports, CSRF) must stay green.
-- R9.2 `npm run security-test` — 64 tests (public homepage/SEO, auth, lockouts, email-code password reset, email-verified account approval, Gmail sign-in, 2FA, roles, bans, breach passwords, sessions) must stay green.
+- R9.2 `npm run security-test` — 64 tests (public homepage/SEO, auth, lockouts, email-code password reset, email-verified account approval, Gmail sign-in, 2FA, roles, bans, permissive password policy, sessions) must stay green.
 
 ## 10. Deployment (all free)
 

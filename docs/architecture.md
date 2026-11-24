@@ -1,9 +1,8 @@
 # Architecture
 
-Steel Yard Ledger — Alpha (branded **Sri Sai Web — Steel Yard Ledger — Alpha**)
-is a **modular monolith**: one Node.js process, one Firestore database, one
-deployable — internally organized into domain modules. In production it runs as
-a single Firebase Cloud Function (`functions/index.js`, `asia-south1`,
+Steel Yard Ledger — Alpha is a **modular monolith**: one Node.js process, one Firestore database, one
+deployable — internally organized into domain modules. In production it runs as a
+single container (Fly.io) or a single Firebase Cloud Function (`functions/index.js`, `asia-south1`,
 `maxInstances: 1`) behind Firebase Hosting; `server.js` remains the local
 entrypoint. The decision and its tradeoffs are recorded in
 [ADR 0001](adr/0001-modular-monolith-structure.md).

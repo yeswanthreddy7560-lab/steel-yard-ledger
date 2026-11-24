@@ -25,7 +25,7 @@ async function firestoreCheck() {
   try {
     const database = firebase.getFirestore();
     if (!database) throw new Error("Firestore is not configured.");
-    await database.doc("health_ping").get();
+    await database.doc("health_checks/ping").get();
     return { ok: true, latencyMs: Date.now() - startedAt, error: null };
   } catch (error) {
     return {
