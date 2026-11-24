@@ -207,3 +207,4 @@ the database is unreachable. It never creates a local database file.
 - `npm run security-test` — 64 checks covering the public homepage and SEO metadata, auth, CSRF, 2FA, roles, Order Tracking, exports, forced password changes, emailed reset codes and tokens, email-verified account approval, Gmail sign-in, permissive password policy, and IP auto-bans.
 - `npm run customer-test` — 24 checks covering the register, expiry engine, and ownership.
 - `npm run ai-test` — 15 access checks proving the assistant is admin-only (anonymous/viewer 401/403, admin 200).
+- `npm run reset-users-test` — 16 checks proving recovery works for approved viewers and pending accounts.

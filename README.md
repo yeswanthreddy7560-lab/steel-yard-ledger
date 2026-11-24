@@ -287,6 +287,8 @@ is wiped afterwards. They require the same service account as the app.
 - `unit-test` — 19 assertions for validators, CSRF helpers, agent routing and the offline assistant.
 - `ai-test.js` — admin-only enforcement: anonymous/viewer `401`/`403` on both
   assistant APIs and the page, admin `200` on all three.
+- `reset-users-test.js` — 16 checks proving password recovery works for approved
+  viewers and auto-approves pending accounts when their code is verified.
 - `customer-test.js` — 24 checks: expiry rules, duplicate bills, validation,
   filters, pagination with 1,000 records, IDOR, CSV export, injection payloads.
 - `security-test.js` — 64 checks: public homepage/robots/sitemap, anonymous
