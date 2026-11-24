@@ -101,6 +101,8 @@ async function waitForServer(child) {
 
     result = await json("/api/ai/status", undefined, { method: "GET", csrf: false });
     check("admin can read assistant status", result.response.status === 200 && result.data.available === true);
+    check("twelve specialist agents listed", Array.isArray(result.data.agents) && result.data.agents.length === 12);
+    check("allowed actions listed", Array.isArray(result.data.actions) && result.data.actions.some((a) => a.id === "unbanIp"));
     result = await json("/api/ai/ask", { question: "How many items are in the catalogue?" });
     check("admin can ask the assistant", result.response.status === 200 && /Catalogue:/.test(result.data.answer));
     response = await request("/ai-agent");
@@ -143,6 +145,24 @@ async function waitForServer(child) {
     check("viewer cannot ask the assistant", result.response.status === 403);
     response = await request("/ai-agent");
     check("viewer is redirected from the assistant page", response.status === 302 && response.headers.get("location") === "/");
+
+    // Two-step data action: viewer blocked, admin preview then apply.
+    result = await json("/api/ai/action", { action: "unbanIp", params: { ip: "203.0.113.9" } });
+    check("viewer cannot propose a data action", result.response.status === 403);
+
+    jar.clear();
+    result = await json("/api/auth/session", undefined, { method: "GET", csrf: false });
+    csrf = result.data.csrfToken;
+    result = await json("/api/auth/login", { username: "admin", password: ADMIN_PASS });
+    csrf = result.data.csrfToken;
+
+    result = await json("/api/ai/action", { action: "unbanIp", params: { ip: "203.0.113.9" } });
+    check("admin can preview a data action", result.response.status === 200 && result.data.requiresConfirmation === true);
+    const confirmToken = result.data.confirmToken;
+    result = await json("/api/ai/action", { action: "unbanIp", params: { ip: "203.0.113.9" }, confirmToken });
+    check("admin can apply a confirmed data action", result.response.status === 200 && result.data.ok === true);
+    result = await json("/api/ai/action", { action: "unbanIp", params: { ip: "203.0.113.9" }, confirmToken });
+    check("confirmation token cannot be replayed", result.response.status === 400);
 
     console.log("\nAI assistant access checks: ALL PASSED");
   } finally {

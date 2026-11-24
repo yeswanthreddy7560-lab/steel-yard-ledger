@@ -1,8 +1,8 @@
 # Security Test Report
 
-- **Date:** 2026-11-24T16:52:22.618Z
+- **Date:** 2026-11-24T17:38:07.514Z
 - **Target:** private Steel Yard Ledger — Alpha catalogue (Node.js/Express)
-- **Environment:** isolated Firestore prefix `t_sec_mwuxlrrx_5e7a89`, HTTP on 127.0.0.1:3210
+- **Environment:** isolated Firestore prefix `t_sec_mwuz85i0_55ba9a`, HTTP on 127.0.0.1:3210
 - **Result:** 64/64 checks passed (100%)
 
 All automated checks passed.

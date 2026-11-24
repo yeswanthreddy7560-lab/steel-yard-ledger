@@ -1330,6 +1330,41 @@ button {
   text-transform: uppercase;
 }
 
+.ai-card {
+  align-self: stretch;
+  margin: 4px 0;
+  padding: 14px 16px;
+  border: 1px solid #ffc400;
+  border-radius: 12px;
+  background: #fffdf5;
+}
+
+.ai-card-title {
+  margin: 0 0 8px;
+  color: #8a6d00;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ai-card-body {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ai-card-button {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #202325;
+  color: #ffc400;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .ai-agent-chip {
   padding: 5px 10px;
   border: 1px solid #d8d8d4;

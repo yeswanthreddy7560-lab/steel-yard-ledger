@@ -134,12 +134,14 @@ sessions stored in Firestore by an earlier process.
   renders every image in that same frame so cards stay aligned.
 - Customer register with one-calendar-month expiry, search, filters, CSV export.
 - Security event log (sign-ins, failures, approvals, changes, rate limits).
-- Admin-only **AI assistant team** (`/ai-agent`): nine offline specialist agents
-  (Catalogue, Customer Register, Accounts, Orders, Security, Sales Analytics,
-  Email, SEO and Deployment). Questions are routed to the right agent, or you
-  can pin one explicitly. No external API or API key. The page, navigation link
-  and floating launcher are hidden from viewers, and both API routes reject them
-  with `403`.
+- Admin-only **AI assistant team** (`/ai-agent`): twelve offline specialist agents
+  covering every app area, including a **Live Inspector** that checks the public
+  site online, a **Change Agent** that proposes allowed data changes for your
+  approval, and an **Improvement Agent** that proposes code fixes for Git + Fly
+  redeploy. No external API or API key. Data changes are two-step (preview, then
+  signed confirmation) and logged; the live container source is never edited.
+  The page, navigation link and floating launcher are hidden from viewers, and
+  all API routes reject them with `403`.
 - Strict CSP, HSTS in HTTPS mode, `nosniff`, frame denial, no-referrer.
 - Print-friendly catalogue styles.
 
@@ -284,9 +286,8 @@ Both suites start isolated servers and write to **unique Firestore collection
 prefixes** (`FIRESTORE_PREFIX`), so production data is never touched; the prefix
 is wiped afterwards. They require the same service account as the app.
 
-- `unit-test` — 19 assertions for validators, CSRF helpers, agent routing and the offline assistant.
-- `ai-test.js` — admin-only enforcement: anonymous/viewer `401`/`403` on both
-  assistant APIs and the page, admin `200` on all three.
+- `unit-test` — 20 assertions for validators, CSRF helpers, agent routing and the offline assistant.
+- `ai-test.js` — 21 access checks: anonymous/viewer `401`/`403`, twelve agents listed, admin-only two-step data action preview/apply and replay protection.
 - `reset-users-test.js` — 16 checks proving password recovery works for approved
   viewers and auto-approves pending accounts when their code is verified.
 - `customer-test.js` — 24 checks: expiry rules, duplicate bills, validation,

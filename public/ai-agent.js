@@ -21,6 +21,70 @@
     return node;
   }
 
+  function card(title, lines) {
+    const node = element("section", "ai-card");
+    node.append(element("p", "ai-card-title", title));
+    for (const line of lines) node.append(element("p", "ai-card-body", line));
+    return node;
+  }
+
+  function renderConfirmation(data) {
+    const container = document.getElementById("ai-messages");
+    if (!container || !data.confirmation) return;
+    const confirmation = data.confirmation;
+    const node = card(`Proposed change · ${confirmation.label}`, [confirmation.preview]);
+    const button = element("button", "ai-card-button", "Approve & apply");
+    button.type = "button";
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      showError("");
+      try {
+        const response = await window.SessionUI.request("/api/ai/action", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: confirmation.action,
+            params: data.proposal.params,
+            confirmToken: confirmation.confirmToken
+          })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          showError(result.error || "The change could not be applied.");
+          return;
+        }
+        addMessage("assistant", result.result || "Change applied.", data.agentName);
+        node.remove();
+      } catch (error) {
+        showError("Network error. The change was not applied.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+    node.append(button);
+    container.append(node);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function renderCodeProposal(proposal) {
+    const container = document.getElementById("ai-messages");
+    if (!container || !proposal) return;
+    const node = card(`Code proposal · ${proposal.title}`, proposal.steps.map((step) => `• ${step}`));
+    const button = element("button", "ai-card-button", "Copy steps");
+    button.type = "button";
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(proposal.steps.join("\n"));
+        button.textContent = "Copied";
+      } catch (error) {
+        button.textContent = "Copy failed";
+      }
+    });
+    node.append(button);
+    container.append(node);
+    container.scrollTop = container.scrollHeight;
+  }
+
   function showError(message) {
     const box = document.getElementById("ai-error");
     if (!box) return;
@@ -137,6 +201,9 @@
         return;
       }
       addMessage("assistant", data.answer || "No answer was returned.", data.agentName);
+      if (data.confirmationError) showError(data.confirmationError);
+      if (data.confirmation) renderConfirmation(data);
+      if (data.codeProposal) renderCodeProposal(data.codeProposal);
       if (data.suggestions) renderSuggestions(data.suggestions);
     } catch (error) {
       showError("Network error. Please try again.");

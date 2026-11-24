@@ -10,6 +10,9 @@ const sales = require("./sales");
 const mail = require("./mail");
 const seo = require("./seo");
 const deployment = require("./deployment");
+const inspector = require("./inspector");
+const change = require("./change");
+const improver = require("./improver");
 
 const agents = [
   help,
@@ -21,7 +24,10 @@ const agents = [
   sales,
   mail,
   seo,
-  deployment
+  deployment,
+  inspector,
+  change,
+  improver
 ];
 
 const byId = new Map(agents.map((agent) => [agent.id, agent]));

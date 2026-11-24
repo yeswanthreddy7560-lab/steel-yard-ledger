@@ -154,16 +154,18 @@ Both routes return `text/csv; charset=utf-8` with a UTF-8 BOM (Excel-friendly) a
 
 ## Admin AI assistant team — `src/routes/ai.js`
 
-Nine offline, in-process specialist agents under `src/ai/agents/`: `catalogue`,
-`customers`, `users`, `orders`, `security`, `sales`, `mail`, `seo` and
-`deployment`, plus a `help` fallback. No external API call, no API key, no
-network access. All routes require an administrator session; viewers receive
-`403`, anonymous callers `401`.
+Twelve offline, in-process specialist agents under `src/ai/agents/`: `catalogue`,
+`customers`, `users`, `orders`, `security`, `sales`, `mail`, `seo`, `deployment`,
+`inspector`, `change` and `improver`, plus a `help` fallback. The Inspector checks
+the public origin; the Change Agent proposes allowed data actions; the
+Improvement Agent proposes code fixes for Git + Fly redeploy. No external API.
+All routes require an administrator session; viewers receive `403`.
 
 | Method | Path | Guard | Description |
 |---|---|---|---|
-| GET | `/api/ai/status` | admin | `{ available, mode: "offline", agents: [{ id, name, description }], suggestions }`. |
-| POST | `/api/ai/ask` | admin + CSRF + limiter | Body `{ question, agentId? }` (question 1–300 chars). Returns `{ answer, intent, agent, agentName, suggestions }`. Omit `agentId` to auto-route, or pin one of the agent IDs from `/status`. Rate limit `AI_RATE_LIMIT` (default 60 per 15 min). |
+| GET | `/api/ai/status` | admin | `{ available, mode, agents: [...], actions: [...], suggestions }`. |
+| POST | `/api/ai/ask` | admin + CSRF + limiter | Body `{ question, agentId? }` (question 1–300 chars). Returns `{ answer, intent, agent, agentName, suggestions, inspection?, proposal?, confirmation?, codeProposal? }`. Omit `agentId` to auto-route, or pin an agent ID. Rate limit `AI_RATE_LIMIT` (default 60/15 min). |
+| POST | `/api/ai/action` | admin + CSRF + limiter | Two-step data change. Without `confirmToken`: body `{ action, params }` returns `{ requiresConfirmation, preview, confirmToken, expiresAt }`. With `confirmToken`: applies the change. Allowed actions: `approveUser`, `revokeUser`, `unbanIp`, `setOrderStatus`, `updateStock`. Tokens expire in 5 minutes, are bound to the admin id, and cannot be replayed. Rate limit `AI_ACTION_RATE_LIMIT` (default 20/15 min). |
 
 Questions are answered from the in-memory Firestore working set: catalogue
 counts and rates, category breakdowns, customer expiry status, pending user
@@ -190,6 +192,7 @@ No password hashes, tokens or cookies are ever returned.
 | `CANONICAL_ORIGIN` | `https://CANONICAL_HOST` | Absolute origin used in canonical URLs, Open Graph, JSON-LD, and the sitemap. |
 | `API_RATE_LIMIT` | `600` | General API requests per 15-minute window. |
 | `AI_RATE_LIMIT` | `60` | Admin assistant questions per 15-minute window. |
+| `AI_ACTION_RATE_LIMIT` | `20` | Admin assistant data-action requests per 15-minute window. |
 | `LOGIN_RATE_LIMIT` / `REGISTER_RATE_LIMIT` | `10` / `5` | Auth attempt limits. |
 | `FORGOT_RATE_LIMIT` / `RESET_RATE_LIMIT` | `5` / `10` | Reset-request (per hour) and reset-token (per 15 min) limits per IP. |
 | `RESET_OTP_TTL_SECONDS` | `600` | Lifetime of the emailed 6-digit code (1–3600). |

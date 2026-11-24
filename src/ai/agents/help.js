@@ -20,7 +20,10 @@ module.exports = {
         "• Sales Analytics Agent — revenue and top items\n" +
         "• Email Agent — recovery mail setup\n" +
         "• SEO Agent — canonical, robots, sitemap\n" +
-        "• Deployment Agent — version and runtime\n\n" +
+        "• Deployment Agent — version and runtime\n" +
+        "• Live Inspector Agent — checks the public app online\n" +
+        "• Change Agent — proposes allowed data changes for your approval\n" +
+        "• Improvement Agent — proposes code fixes through Git + Fly redeploy\n\n" +
         "Try one of these:\n" +
         SUGGESTIONS.slice(0, 4).map((item) => `• ${item}`).join("\n"),
       intent: "help"

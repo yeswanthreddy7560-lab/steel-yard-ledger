@@ -23,14 +23,14 @@ function agentList() {
  * Returns { answer, intent, agent, agentName, suggestions }.
  * Never throws on user input.
  */
-function answer(question, requestedAgentId) {
+async function answer(question, requestedAgentId) {
   const q = normalize(question);
   const pinned = requestedAgentId ? byId.get(String(requestedAgentId)) : null;
   const agent = pinned || (q ? select(q) : help);
 
   let result;
   try {
-    result = agent.answer(q);
+    result = await agent.answer(q);
   } catch (error) {
     console.error(`AI agent "${agent.id}" failed: ${error.message}`);
     result = { answer: "That agent could not answer the question. Please try a different wording.", intent: "error" };
@@ -41,7 +41,10 @@ function answer(question, requestedAgentId) {
     intent: result.intent || "unknown",
     agent: agent.id,
     agentName: agent.name,
-    suggestions: SUGGESTIONS
+    suggestions: SUGGESTIONS,
+    ...(result.proposal ? { proposal: result.proposal } : {}),
+    ...(result.inspection ? { inspection: result.inspection } : {}),
+    ...(result.codeProposal ? { codeProposal: result.codeProposal } : {})
   };
 }
 
