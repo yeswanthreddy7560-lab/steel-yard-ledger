@@ -84,6 +84,11 @@ router.get("/orders", pageHeaders, requirePageAdmin, (_req, res) => {
   res.sendFile(path.join(VIEWS_DIR, "orders.html"));
 });
 
+/* Admin-only offline assistant page. */
+router.get("/ai-agent", pageHeaders, requirePageAdmin, (_req, res) => {
+  res.sendFile(path.join(VIEWS_DIR, "ai-agent.html"));
+});
+
 router.get("/api/health", (_req, res) => {
   res.json({ status: "ok", version: require("../../package.json").version, time: new Date().toISOString() });
 });

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>AI assistant · Steel Yard Ledger — Alpha</title>
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/auth.css" />
+  </head>
+  <body class="admin-body requires-session">
+    <header class="admin-header">
+      <div class="session-bar">
+        <span class="session-user">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="user-label">Signed in</span>
+          <span class="session-role" id="user-role" hidden></span>
+        </span>
+        <span class="session-actions">
+          <a class="session-link" href="/">Home</a>
+          <a class="session-link" href="/customers">Customers</a>
+          <a class="session-link" id="orders-link" href="/orders" hidden>Orders</a>
+          <a class="session-link" id="admin-link" href="/admin" hidden>Admin</a>
+          <a class="session-link" id="ai-link" href="/ai-agent" aria-current="page" hidden>AI assistant</a>
+          <button type="button" class="session-link" id="change-password-button" hidden>Change password</button>
+          <button type="button" class="session-link" id="logout-button">Sign out</button>
+        </span>
+      </div>
+      <div class="admin-header-inner">
+        <div>
+          <p class="brand-mark">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <circle cx="32" cy="32" r="30" fill="#202325"/>
+              <circle cx="32" cy="32" r="26" fill="none" stroke="#ffc400" stroke-width="4"/>
+              <path d="M17.5 39.5 32 15l14.5 24.5" fill="none" stroke="#fdfdfc" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M27.2 39.5 32 30l4.8 9.5Z" fill="#ffc400"/>
+              <path d="M15.5 44.5h33l-2.6 6.5H18.1Z" fill="#ffc400"/>
+              <circle cx="32" cy="54.4" r="2.2" fill="#fdfdfc"/>
+            </svg>
+            Steel Yard Ledger — Alpha
+          </p>
+          <h1>AI<br /><span class="accent">assistant</span></h1>
+          <p>Administrator only. Ask about the catalogue, customers, accounts, orders, sales or security events.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="ai-page">
+      <section class="ai-shell" aria-label="Admin assistant">
+        <div class="ai-toolbar">
+          <span class="ai-mode">Offline · in-process · no external API</span>
+          <button type="button" class="ai-clear" id="ai-clear">Clear conversation</button>
+        </div>
+
+        <div class="ai-messages" id="ai-messages" role="log" aria-live="polite">
+          <div class="ai-message ai-message-assistant">
+            <p class="ai-message-label">Assistant</p>
+            <p class="ai-message-text" id="ai-welcome">Loading…</p>
+          </div>
+        </div>
+
+        <div class="ai-suggestions" id="ai-suggestions" aria-label="Example questions"></div>
+
+        <form class="ai-composer" id="ai-form">
+          <label class="sr-only" for="ai-question">Your question</label>
+          <input
+            id="ai-question"
+            name="question"
+            type="text"
+            maxlength="300"
+            autocomplete="off"
+            placeholder="Ask about stock, customers, pending approvals…"
+            required
+          />
+          <button type="submit" id="ai-send">Ask</button>
+        </form>
+        <p class="ai-error" id="ai-error" role="alert" hidden></p>
+      </section>
+    </main>
+
+    <script src="/session-ui.js?v=5"></script>
+    <script src="/ai-agent.js?v=1"></script>
+  </body>
+</html>

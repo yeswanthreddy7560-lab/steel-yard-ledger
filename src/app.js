@@ -33,6 +33,7 @@ const adminRouter = require("./routes/admin");
 const vendorsRouter = require("./routes/vendors");
 const analyticsRouter = require("./routes/analytics");
 const portalRouter = require("./routes/portal");
+const aiRouter = require("./routes/ai");
 
 function createApp() {
   const app = express();
@@ -184,6 +185,7 @@ function createApp() {
   app.use(vendorsRouter);
   app.use(analyticsRouter);
   app.use(portalRouter);
+  app.use(aiRouter);
 
   /* --- 404 and error handling ---------------------------------------- */
 

@@ -150,6 +150,22 @@ Both routes return `text/csv; charset=utf-8` with a UTF-8 BOM (Excel-friendly) a
 | GET | `/admin` | Admin console (viewers redirected to `/`). |
 | GET | `/orders` | Orders page, admin-only (`order-tracking` category). |
 | GET | `/customers` | Customer register page (auth required). |
+| GET | `/ai-agent` | Admin-only assistant page (viewers redirected to `/`). |
+
+## Admin AI assistant — `src/routes/ai.js`
+
+Offline, in-process assistant. No external API call, no API key, no network
+access. All routes require an administrator session; viewers receive `403`.
+
+| Method | Path | Guard | Description |
+|---|---|---|---|
+| GET | `/api/ai/status` | admin | `{ available, mode: "offline", suggestions }`. |
+| POST | `/api/ai/ask` | admin + CSRF + limiter | Body `{ question }` (1–300 chars). Returns `{ answer, intent, suggestions }`. Intents: help, catalogue, category, price, stock, customers, users, orders, security, sales, unknown. Rate limit `AI_RATE_LIMIT` (default 60 per 15 min). |
+
+Questions are answered from the in-memory Firestore working set: catalogue
+counts and rates, category breakdowns, customer expiry status, pending user
+approvals, pending orders, recent security events, bans and sales analytics.
+No password hashes, tokens or cookies are ever returned.
 
 ---
 
@@ -170,6 +186,7 @@ Both routes return `text/csv; charset=utf-8` with a UTF-8 BOM (Excel-friendly) a
 | `CANONICAL_HOST` | `steel-yard-ledger.fly.dev` | Apex hostname that is indexable; `www` 301s here, other hosts get `X-Robots-Tag: noindex`. |
 | `CANONICAL_ORIGIN` | `https://CANONICAL_HOST` | Absolute origin used in canonical URLs, Open Graph, JSON-LD, and the sitemap. |
 | `API_RATE_LIMIT` | `600` | General API requests per 15-minute window. |
+| `AI_RATE_LIMIT` | `60` | Admin assistant questions per 15-minute window. |
 | `LOGIN_RATE_LIMIT` / `REGISTER_RATE_LIMIT` | `10` / `5` | Auth attempt limits. |
 | `FORGOT_RATE_LIMIT` / `RESET_RATE_LIMIT` | `5` / `10` | Reset-request (per hour) and reset-token (per 15 min) limits per IP. |
 | `RESET_OTP_TTL_SECONDS` | `600` | Lifetime of the emailed 6-digit code (1–3600). |
@@ -186,3 +203,4 @@ the database is unreachable. It never creates a local database file.
 
 - `npm run security-test` — 64 checks covering the public homepage and SEO metadata, auth, CSRF, 2FA, roles, Order Tracking, exports, forced password changes, emailed reset codes and tokens, email-verified account approval, Gmail sign-in, permissive password policy, and IP auto-bans.
 - `npm run customer-test` — 24 checks covering the register, expiry engine, and ownership.
+- `npm run ai-test` — 15 access checks proving the assistant is admin-only (anonymous/viewer 401/403, admin 200).

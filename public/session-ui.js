@@ -43,6 +43,8 @@
     if (adminLink) adminLink.hidden = session.user.role !== "admin";
     const ordersLink = document.getElementById("orders-link");
     if (ordersLink) ordersLink.hidden = session.user.role !== "admin";
+    const aiLink = document.getElementById("ai-link");
+    if (aiLink) aiLink.hidden = session.user.role !== "admin";
     return session;
   }
 
