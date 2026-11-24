@@ -21,6 +21,7 @@ writes changes back through a batched, retried queue.
 
 ## Contents
 
+- [Agent team](docs/AGENTS.md)
 - [Live deployment](docs/DEPLOY-FLY.md)
 - [Requirements](#requirements)
 - [Quick start](#quick-start)
