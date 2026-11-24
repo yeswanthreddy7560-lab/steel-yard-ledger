@@ -134,10 +134,11 @@ sessions stored in Firestore by an earlier process.
   renders every image in that same frame so cards stay aligned.
 - Customer register with one-calendar-month expiry, search, filters, CSV export.
 - Security event log (sign-ins, failures, approvals, changes, rate limits).
-- Admin-only **AI assistant** (`/ai-agent`): an offline, in-process assistant
-  that answers questions about the catalogue, customers, accounts, orders, sales
-  and security events. No external API or API key. The page, navigation link and
-  floating launcher are hidden from viewers, and both API routes reject them
+- Admin-only **AI assistant team** (`/ai-agent`): nine offline specialist agents
+  (Catalogue, Customer Register, Accounts, Orders, Security, Sales Analytics,
+  Email, SEO and Deployment). Questions are routed to the right agent, or you
+  can pin one explicitly. No external API or API key. The page, navigation link
+  and floating launcher are hidden from viewers, and both API routes reject them
   with `403`.
 - Strict CSP, HSTS in HTTPS mode, `nosniff`, frame denial, no-referrer.
 - Print-friendly catalogue styles.
@@ -283,8 +284,7 @@ Both suites start isolated servers and write to **unique Firestore collection
 prefixes** (`FIRESTORE_PREFIX`), so production data is never touched; the prefix
 is wiped afterwards. They require the same service account as the app.
 
-- `unit-test` — 16 assertions for validators, CSRF helpers and the offline
-  assistant.
+- `unit-test` — 19 assertions for validators, CSRF helpers, agent routing and the offline assistant.
 - `ai-test.js` — admin-only enforcement: anonymous/viewer `401`/`403` on both
   assistant APIs and the page, admin `200` on all three.
 - `customer-test.js` — 24 checks: expiry rules, duplicate bills, validation,

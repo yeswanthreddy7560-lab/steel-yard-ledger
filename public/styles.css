@@ -1313,6 +1313,39 @@ button {
   line-height: 1.55;
 }
 
+.ai-agents {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px 0;
+}
+
+.ai-agents-label {
+  margin-right: 4px;
+  color: #6c706c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ai-agent-chip {
+  padding: 5px 10px;
+  border: 1px solid #d8d8d4;
+  border-radius: 999px;
+  background: #fff;
+  color: #202325;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.ai-agent-chip.is-active {
+  border-color: #202325;
+  background: #202325;
+  color: #ffc400;
+}
+
 .ai-suggestions {
   display: flex;
   flex-wrap: wrap;

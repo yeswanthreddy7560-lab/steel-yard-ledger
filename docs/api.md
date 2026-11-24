@@ -152,15 +152,18 @@ Both routes return `text/csv; charset=utf-8` with a UTF-8 BOM (Excel-friendly) a
 | GET | `/customers` | Customer register page (auth required). |
 | GET | `/ai-agent` | Admin-only assistant page (viewers redirected to `/`). |
 
-## Admin AI assistant — `src/routes/ai.js`
+## Admin AI assistant team — `src/routes/ai.js`
 
-Offline, in-process assistant. No external API call, no API key, no network
-access. All routes require an administrator session; viewers receive `403`.
+Nine offline, in-process specialist agents under `src/ai/agents/`: `catalogue`,
+`customers`, `users`, `orders`, `security`, `sales`, `mail`, `seo` and
+`deployment`, plus a `help` fallback. No external API call, no API key, no
+network access. All routes require an administrator session; viewers receive
+`403`, anonymous callers `401`.
 
 | Method | Path | Guard | Description |
 |---|---|---|---|
-| GET | `/api/ai/status` | admin | `{ available, mode: "offline", suggestions }`. |
-| POST | `/api/ai/ask` | admin + CSRF + limiter | Body `{ question }` (1–300 chars). Returns `{ answer, intent, suggestions }`. Intents: help, catalogue, category, price, stock, customers, users, orders, security, sales, unknown. Rate limit `AI_RATE_LIMIT` (default 60 per 15 min). |
+| GET | `/api/ai/status` | admin | `{ available, mode: "offline", agents: [{ id, name, description }], suggestions }`. |
+| POST | `/api/ai/ask` | admin + CSRF + limiter | Body `{ question, agentId? }` (question 1–300 chars). Returns `{ answer, intent, agent, agentName, suggestions }`. Omit `agentId` to auto-route, or pin one of the agent IDs from `/status`. Rate limit `AI_RATE_LIMIT` (default 60 per 15 min). |
 
 Questions are answered from the in-memory Firestore working set: catalogue
 counts and rates, category breakdowns, customer expiry status, pending user

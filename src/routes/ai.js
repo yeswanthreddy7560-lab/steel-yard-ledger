@@ -13,7 +13,7 @@ const { rateLimit } = require("express-rate-limit");
 
 const { requireAdmin } = require("../middleware/auth");
 const { csrfProtection } = require("../security");
-const { answer, SUGGESTIONS } = require("../ai-assistant");
+const { answer, agentList, SUGGESTIONS } = require("../ai-assistant");
 
 const router = express.Router();
 
@@ -30,19 +30,28 @@ const aiLimiter = rateLimit({
 });
 
 router.get("/api/ai/status", requireAdmin, (_req, res) => {
-  res.json({ available: true, mode: "offline", suggestions: SUGGESTIONS });
+  res.json({
+    available: true,
+    mode: "offline",
+    agents: agentList(),
+    suggestions: SUGGESTIONS
+  });
 });
 
 router.post("/api/ai/ask", requireAdmin, csrfProtection, aiLimiter, (req, res) => {
   const question = typeof (req.body && req.body.question) === "string" ? req.body.question : "";
+  const agentId = typeof (req.body && req.body.agentId) === "string" ? req.body.agentId : "";
   if (!question.trim()) {
     return res.status(400).json({ error: "Enter a question." });
   }
   if (question.length > 300) {
     return res.status(400).json({ error: "Question must be at most 300 characters." });
   }
+  if (agentId && agentId.length > 40) {
+    return res.status(400).json({ error: "Invalid agent selection." });
+  }
   try {
-    res.json(answer(question));
+    res.json(answer(question, agentId));
   } catch (error) {
     console.error(`AI assistant failed: ${error.message}`);
     res.status(500).json({ error: "The assistant could not answer that question." });

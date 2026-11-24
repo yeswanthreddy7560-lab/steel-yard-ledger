@@ -6,6 +6,8 @@
   const ON_PAGE = window.location.pathname === "/ai-agent";
   let session = null;
   let suggestions = [];
+  let agents = [];
+  let selectedAgent = "";
   let busy = false;
 
   function isAdmin() {
@@ -26,11 +28,12 @@
     box.hidden = !message;
   }
 
-  function addMessage(role, text) {
+  function addMessage(role, text, meta) {
     const container = document.getElementById("ai-messages");
     if (!container) return;
     const wrapper = element("div", `ai-message ai-message-${role}`);
-    wrapper.append(element("p", "ai-message-label", role === "user" ? "You" : "Assistant"));
+    const label = role === "user" ? "You" : "Assistant" + (meta ? ` · ${meta}` : "");
+    wrapper.append(element("p", "ai-message-label", label));
     const body = element("p", "ai-message-text", text);
     body.style.whiteSpace = "pre-wrap";
     wrapper.append(body);
@@ -56,12 +59,57 @@
     }
   }
 
+  function renderAgents(items) {
+    const container = document.getElementById("ai-agents");
+    if (!container) return;
+    container.replaceChildren();
+    container.append(element("span", "ai-agents-label", "Agent:"));
+
+    const auto = element("button", "ai-agent-chip", "Auto");
+    auto.type = "button";
+    auto.title = "Route each question to the best agent";
+    auto.addEventListener("click", () => {
+      selectedAgent = "";
+      highlightAgents();
+    });
+    auto.dataset.agent = "";
+    container.append(auto);
+
+    for (const item of items || []) {
+      const chip = element("button", "ai-agent-chip", item.name);
+      chip.type = "button";
+      chip.title = item.description;
+      chip.dataset.agent = item.id;
+      chip.addEventListener("click", () => {
+        selectedAgent = item.id;
+        highlightAgents();
+      });
+      container.append(chip);
+    }
+    highlightAgents();
+  }
+
+  function highlightAgents() {
+    const container = document.getElementById("ai-agents");
+    if (!container) return;
+    for (const chip of container.querySelectorAll(".ai-agent-chip")) {
+      chip.classList.toggle("is-active", chip.dataset.agent === selectedAgent);
+      chip.setAttribute("aria-pressed", chip.dataset.agent === selectedAgent ? "true" : "false");
+    }
+    const input = document.getElementById("ai-question");
+    if (input) input.placeholder = selectedAgent
+      ? `Ask the ${selectedAgent} agent…`
+      : "Ask about stock, customers, pending approvals…";
+  }
+
   async function loadStatus() {
     const response = await window.SessionUI.request("/api/ai/status");
     if (!response.ok) return;
     const data = await response.json();
     suggestions = data.suggestions || [];
+    agents = data.agents || [];
     renderSuggestions(suggestions);
+    renderAgents(agents);
     const welcome = document.getElementById("ai-welcome");
     if (welcome) {
       welcome.textContent =
@@ -80,7 +128,7 @@
       const response = await window.SessionUI.request("/api/ai/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question })
+        body: JSON.stringify({ question, agentId: selectedAgent })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
@@ -88,7 +136,7 @@
         addMessage("assistant", "Sorry — I could not answer that question.");
         return;
       }
-      addMessage("assistant", data.answer || "No answer was returned.");
+      addMessage("assistant", data.answer || "No answer was returned.", data.agentName);
       if (data.suggestions) renderSuggestions(data.suggestions);
     } catch (error) {
       showError("Network error. Please try again.");
